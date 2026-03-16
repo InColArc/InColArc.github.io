@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ist Ihre Koordinationsinfrastruktur gestaltet — oder passiert sie einfach?</title>
+    <meta name="description" content="20 Fragen darüber, wie Koordination in Ihrer Organisation tatsächlich funktioniert. Ein Diagnosewerkzeug des Instituts für Collaboration Architecture.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            line-height: 1.6;
+            color: #1a1a1a;
+        }
+        header { padding: 2rem 0; border-bottom: 2px solid #1a1a1a; margin-bottom: 1.5rem; }
+        header small { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: #888; }
+        h1 { font-size: 1.6rem; margin: 0.5rem 0; }
+        header p { font-size: 0.9rem; color: #666; }
+        header a { font-size: 0.75rem; color: #888; }
+
+        .progress { height: 3px; background: #ddd; margin-bottom: 0.5rem; position: sticky; top: 0; }
+        .progress-fill { height: 100%; background: #c45a3c; transition: width 0.4s; width: 0%; }
+        .progress-label { font-size: 0.75rem; color: #888; margin-bottom: 1.5rem; position: sticky; top: 3px; background: white; padding: 0.25rem 0; }
+
+        .section { display: none; }
+        .section.active { display: block; }
+        .section-title { font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+        .question { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
+        .question:last-of-type { border-bottom: none; }
+        .question p { margin-bottom: 0.75rem; font-weight: 500; }
+
+        .option {
+            display: block;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.4rem;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .option:hover { border-color: #999; }
+        .option.selected { border-color: #c45a3c; background: #faf5f3; }
+
+        .nav { display: flex; justify-content: space-between; padding: 1.5rem 0; border-top: 1px solid #eee; }
+        .nav button {
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        .nav button.primary { background: #1a1a1a; color: white; border-color: #1a1a1a; }
+        .nav button.result { background: #c45a3c; color: white; border-color: #c45a3c; }
+        .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .results { display: none; }
+        .results.active { display: block; }
+
+        .pattern { padding: 1.5rem; margin: 1rem 0; border-left: 4px solid #888; }
+        .pattern.green { border-color: #4a7c59; }
+        .pattern.amber { border-color: #b8860b; }
+        .pattern.red { border-color: #a04530; }
+        .pattern h3 { margin-bottom: 0.5rem; }
+        .pattern p { font-size: 0.9rem; }
+
+        .dimensions { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+        .dim-card { padding: 1rem; border: 1px solid #ddd; }
+        .dim-card small { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; }
+        .dim-card .status { font-weight: 600; margin: 0.25rem 0; }
+        .dim-card .status.good { color: #4a7c59; }
+        .dim-card .status.fragile { color: #b8860b; }
+        .dim-card .status.absent { color: #a04530; }
+        .dim-card .detail { font-size: 0.8rem; color: #666; }
+
+        .next-steps { border-top: 1px solid #ddd; padding-top: 1.5rem; margin-top: 1.5rem; }
+        .next-steps a { display: block; padding: 0.5rem 0; border-bottom: 1px solid #eee; color: #1a1a1a; font-size: 0.9rem; }
+        .next-steps a:hover { color: #c45a3c; }
+
+        .share { margin-top: 1.5rem; padding: 1rem; background: #1a1a1a; color: white; }
+        .share p { font-size: 0.85rem; }
+
+        footer { padding: 1.5rem 0; border-top: 2px solid #1a1a1a; margin-top: 2rem; font-size: 0.75rem; color: #888; }
+        footer a { color: #888; }
+
+        @media (max-width: 640px) { .dimensions { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <small>Institut für Collaboration Architecture · Diagnosewerkzeug</small>
+    <h1>Ist die Koordination in Ihrer Organisation gestaltet — oder passiert sie einfach?</h1>
+    <p>20 Fragen darüber, wie Koordination in Ihrer Organisation tatsächlich funktioniert. Dauert ca. 8 Minuten. Keine E-Mail-Adresse nötig. Ihre Antworten bleiben in Ihrem Browser.</p>
+    <a href="diagnostic.html">English version →</a>
+</header>
+
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+<div class="progress-label" id="progressLabel">Abschnitt 1 von 7</div>
+
+<main id="diagnosticMain"></main>
+
+<div class="results" id="resultsSection">
+    <small>Ihr Muster</small>
+    <div id="resultsContent"></div>
+</div>
+
+<footer>
+    <a href="https://incolarc.github.io">Institut für Collaboration Architecture</a> · Rostock, Deutschland
+</footer>
+
+<script>
+const sections = [
+    {
+        number: "Abschnitt 1 von 7",
+        title: "Wie erreichen Informationen die richtigen Personen?",
+        key: "information_flow",
+        questions: [
+            {
+                text: "Wenn jemand Neues in ein Team kommt — wie erfährt diese Person, wie hier gearbeitet wird?",
+                options: [
+                    { text: "Es gibt einen strukturierten Onboarding-Prozess mit dokumentierten Abläufen", score: 0 },
+                    { text: "Kolleg:innen erklären es informell — funktioniert, hängt aber davon ab, wer gerade da ist", score: 1 },
+                    { text: "Man findet es hauptsächlich selbst heraus, durch Beobachten und Nachfragen", score: 2 },
+                    { text: "Es hängt davon ab, neben wem man zufällig sitzt", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn Sie ein Dokument von vor sechs Monaten bräuchten — wie sicher sind Sie, dass Sie es finden würden?",
+                options: [
+                    { text: "Sehr sicher — wir haben eine gepflegte, durchsuchbare Wissensbasis", score: 0 },
+                    { text: "Einigermaßen — ich würde es wahrscheinlich finden, aber es dauert", score: 1 },
+                    { text: "Gar nicht — ich müsste die Person fragen, die es geschrieben hat", score: 2 },
+                    { text: "Es existiert möglicherweise nicht mehr, oder ich wüsste nicht, wo ich suchen soll", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn in einem Meeting eine Entscheidung getroffen wird — wo wird sie festgehalten?",
+                options: [
+                    { text: "In einem gemeinsamen System, das auch tatsächlich genutzt wird", score: 0 },
+                    { text: "In Meeting-Notizen, die meistens jemand schreibt", score: 1 },
+                    { text: "Nirgends zuverlässig — sie existiert in den Köpfen der Anwesenden", score: 2 },
+                    { text: "Es hängt davon ab, wer im Meeting war", score: 3 }
+                ]
+            }
+        ]
+    },
+    {
+        number: "Abschnitt 2 von 7",
+        title: "Wie koordinieren sich Teams über Grenzen hinweg?",
+        key: "cross_team",
+        questions: [
+            {
+                text: "Wenn Ihre Arbeit vom Ergebnis eines anderen Teams abhängt — wie erfahren Sie, was dort passiert?",
+                options: [
+                    { text: "Über ein gemeinsames System oder einen definierten Koordinationsprozess", score: 0 },
+                    { text: "Über regelmäßige Meetings, die dafür eingerichtet wurden", score: 1 },
+                    { text: "Ich schreibe jemanden an, den ich persönlich kenne", score: 2 },
+                    { text: "Ich erfahre es meistens erst, wenn etwas schiefgeht", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn eine Schlüsselperson zwei Wochen fehlt — was passiert mit der teamübergreifenden Koordination?",
+                options: [
+                    { text: "Sie läuft normal weiter — die Infrastruktur trägt es", score: 0 },
+                    { text: "Sie wird langsamer, bricht aber nicht ab", score: 1 },
+                    { text: "Bestimmte Dinge stehen still, bis die Person zurück ist", score: 2 },
+                    { text: "Niemand merkt es, bis eine Frist gerissen wird", score: 3 }
+                ]
+            },
+            {
+                text: "Wie viele Ihrer Meetings existieren vor allem deshalb, weil kein anderes System die Information transportiert?",
+                options: [
+                    { text: "Sehr wenige — die meisten Meetings dienen Entscheidungen, nicht dem Informationstransfer", score: 0 },
+                    { text: "Einige — wir könnten ein paar durch bessere Dokumentation ersetzen", score: 1 },
+                    { text: "Viele — Meetings sind unser Koordinationsinstrument", score: 2 },
+                    { text: "Die meisten unserer Meetings sind Informationstransfer, der anders laufen sollte", score: 3 }
+                ]
+            }
+        ]
+    },
+    {
+        number: "Abschnitt 3 von 7",
+        title: "Wo leben die Workarounds?",
+        key: "workarounds",
+        questions: [
+            {
+                text: "Gibt es in Ihrer Organisation WhatsApp-Gruppen, inoffizielle Teams-Kanäle oder private E-Mail-Verteiler, über die echte Koordinationsarbeit läuft?",
+                options: [
+                    { text: "Nein — unsere offiziellen Kanäle decken ab, was nötig ist", score: 0 },
+                    { text: "Ein paar, für bestimmte schnelle Abstimmungen", score: 1 },
+                    { text: "Viele — die informellen Kanäle sind dort, wo tatsächlich koordiniert wird", score: 2 },
+                    { text: "So läuft der größte Teil unserer Koordination", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn ein offizieller Prozess nicht funktioniert — was passiert dann?",
+                options: [
+                    { text: "Er wird gemeldet, analysiert und neu aufgebaut", score: 0 },
+                    { text: "Die Leute bauen Workarounds, und irgendwann fällt es auf", score: 1 },
+                    { text: "Die Leute beschweren sich, aber es ändert sich nichts", score: 2 },
+                    { text: "Die Leute hören still auf, den Prozess zu nutzen, und finden eigene Wege", score: 3 }
+                ]
+            }
+        ]
+    },
+    {
+        number: "Abschnitt 4 von 7",
+        title: "Wer trägt die Koordinationsarbeit?",
+        key: "coordination_labour",
+        questions: [
+            {
+                text: "Gibt es jemanden in Ihrer Organisation, dessen inoffizielle Aufgabe es ist, dafür zu sorgen, dass die Leute miteinander reden?",
+                options: [
+                    { text: "Diese Rolle ist formal definiert und mit Ressourcen ausgestattet", score: 0 },
+                    { text: "Ein oder zwei Schlüsselpersonen machen das informell — alle wissen, wer gemeint ist", score: 1 },
+                    { text: "Es passiert, aber niemand wird dafür anerkannt", score: 2 },
+                    { text: "Es ist angeblich die Aufgabe aller — was bedeutet, dass es niemandes Aufgabe ist", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn Koordination scheitert — Nacharbeit, Verzögerungen, Missverständnisse — wer trägt die Kosten?",
+                options: [
+                    { text: "Das ist sichtbar und wird strukturell adressiert", score: 0 },
+                    { text: "Bestimmte Teams leisten die Mehrarbeit", score: 1 },
+                    { text: "Bestimmte Einzelpersonen tragen es — diejenigen, die nicht Nein sagen können", score: 2 },
+                    { text: "Es ist unsichtbar — es zeigt sich als Überstunden, Stress und Fluktuation", score: 3 }
+                ]
+            },
+            {
+                text: "Hat jemand je gemessen, wie viele Stunden pro Woche für Koordinationsarbeit aufgewendet werden, die man durch bessere Infrastruktur vermeiden könnte?",
+                options: [
+                    { text: "Ja — wir erfassen den Koordinationsaufwand und arbeiten daran, ihn zu reduzieren", score: 0 },
+                    { text: "Wir haben das informell geschätzt", score: 1 },
+                    { text: "Niemand hat diese Frage je gestellt", score: 2 },
+                    { text: "Wir messen stattdessen Zufriedenheit", score: 3 }
+                ]
+            }
+        ]
+    },
+    {
+        number: "Abschnitt 5 von 7",
+        title: "Was passiert, wenn Tools eingeführt werden?",
+        key: "tool_deployment",
+        questions: [
+            {
+                text: "Wenn eine neue Plattform oder ein neues Tool eingeführt wird — wer entscheidet, wie es in die bestehenden Arbeitsabläufe passt?",
+                options: [
+                    { text: "Eine dedizierte Rolle gestaltet die Integration gemeinsam mit den Nutzer:innen", score: 0 },
+                    { text: "Die IT konfiguriert es; die Nutzer:innen passen sich an", score: 1 },
+                    { text: "Der Anbieter empfiehlt ein Setup; wir folgen dem", score: 2 },
+                    { text: "Niemand — die Leute finden es selbst heraus", score: 3 }
+                ]
+            },
+            {
+                text: "Nach der letzten großen Tool-Einführung — wurde die Koordination besser, blieb sie gleich, oder wurde es komplexer?",
+                options: [
+                    { text: "Besser — das Tool wurde in unsere Koordinationsinfrastruktur eingebaut", score: 0 },
+                    { text: "Ungefähr gleich — das Tool brachte Features, änderte aber nicht, wie wir koordinieren", score: 1 },
+                    { text: "Komplexer — wir haben jetzt ein weiteres System neben den alten", score: 2 },
+                    { text: "Wir haben ein weiteres Tool eingeführt, um das erste zu managen", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn Kollaborationstools bereitgestellt werden — werden sie auch mit Nutzungsgestaltung und laufender Pflege ausgestattet?",
+                options: [
+                    { text: "Ja — jemand ist verantwortlich dafür, wie das Tool genutzt wird, nicht nur dafür, dass es läuft", score: 0 },
+                    { text: "Anfangs ja, aber die Pflege lässt nach dem Launch nach", score: 1 },
+                    { text: "Das Tool wird bereitgestellt und konfiguriert; die Nutzung ist Sache der Teams", score: 2 },
+                    { text: "Tools werden eingeführt und vergessen, bis das nächste kommt", score: 3 }
+                ]
+            }
+        ]
+    },
+    {
+        number: "Abschnitt 6 von 7",
+        title: "Wer hat das Mandat?",
+        key: "mandate",
+        questions: [
+            {
+                text: "Gibt es in Ihrer Organisation eine Rolle, die explizit dafür verantwortlich ist, wie Teams zusammenarbeiten?",
+                options: [
+                    { text: "Ja, mit Befugnissen, Budget und einem klaren Mandat", score: 0 },
+                    { text: "Jemand macht es informell, aber ohne formale Befugnisse", score: 1 },
+                    { text: "Jemand hat es versucht, aber die Rolle wurde nicht unterstützt", score: 2 },
+                    { text: "Nein — niemand trägt diese Verantwortung", score: 3 }
+                ]
+            },
+            {
+                text: "Wo ist \u201ewie wir zusammenarbeiten\u201c in Ihrer Organisationsstruktur verankert?",
+                options: [
+                    { text: "Es ist eine Priorität auf Geschäftsführungsebene, mit Ressourcen dahinter", score: 0 },
+                    { text: "Das mittlere Management kümmert sich darum, wenn Probleme auftreten", score: 1 },
+                    { text: "HR macht Kulturprogramme; die IT stellt Tools bereit; niemand verbindet beides", score: 2 },
+                    { text: "Es liegt in niemandes expliziter Verantwortung", score: 3 }
+                ]
+            }
+        ]
+    },
+    {
+        number: "Abschnitt 7 von 7",
+        title: "Wie geht Führung mit Koordination um?",
+        key: "leadership",
+        questions: [
+            {
+                text: "Lebt die Führungsebene kooperatives Verhalten aktiv vor?",
+                options: [
+                    { text: "Konsequent — sie nutzt dieselbe Koordinationsinfrastruktur, die sie von Teams erwartet", score: 0 },
+                    { text: "Manchmal — es hängt von der jeweiligen Führungskraft ab", score: 1 },
+                    { text: "Sie redet über Zusammenarbeit, arbeitet selbst aber anders", score: 2 },
+                    { text: "Koordinationsgestaltung sieht sie nicht als Teil ihrer Aufgabe", score: 3 }
+                ]
+            },
+            {
+                text: "Wenn Koordinationsprobleme auftauchen — wie reagiert die Führung typischerweise?",
+                options: [
+                    { text: "Strukturelle Ursache untersuchen und neu aufbauen", score: 0 },
+                    { text: "Ein Meeting oder einen Prozess hinzufügen, um das Symptom zu adressieren", score: 1 },
+                    { text: "Den Teams sagen, sie sollen \u201ebesser kommunizieren\u201c oder \u201emehr zusammenarbeiten\u201c", score: 2 },
+                    { text: "Ein neues Tool einführen", score: 3 }
+                ]
+            }
+        ]
+    }
+];
+
+let currentSection = 0;
+let answers = {};
+
+function init() {
+    renderSection(0);
+    updateProgress();
+}
+
+function renderSection(index) {
+    const main = document.getElementById('diagnosticMain');
+    const section = sections[index];
+
+    let html = '<div class="section active">' +
+        '<small>' + section.number + '</small>' +
+        '<h2 class="section-title">' + section.title + '</h2>';
+
+    section.questions.forEach(function(q, qIdx) {
+        const qKey = section.key + '_' + qIdx;
+        html += '<div class="question"><p>' + q.text + '</p>';
+
+        q.options.forEach(function(opt, oIdx) {
+            const selected = answers[qKey] === oIdx ? 'selected' : '';
+            html += '<div class="option ' + selected + '" onclick="selectOption(\'' + qKey + '\', ' + oIdx + ', this, ' + opt.score + ')">' + opt.text + '</div>';
+        });
+
+        html += '</div>';
+    });
+
+    const isFirst = index === 0;
+    const isLast = index === sections.length - 1;
+    const allAnswered = sectionComplete(index);
+
+    html += '<div class="nav">';
+    html += '<button onclick="goBack()"' + (isFirst ? ' style="visibility:hidden"' : '') + '>\u2190 Zur\u00fcck</button>';
+
+    if (isLast) {
+        html += '<button class="result" onclick="showResults()"' + (!allAnswered ? ' disabled' : '') + '>Ihr Muster anzeigen \u2192</button>';
+    } else {
+        html += '<button class="primary" onclick="goNext()"' + (!allAnswered ? ' disabled' : '') + '>Weiter \u2192</button>';
+    }
+
+    html += '</div></div>';
+    main.innerHTML = html;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function sectionComplete(index) {
+    const section = sections[index];
+    for (let i = 0; i < section.questions.length; i++) {
+        if (answers[section.key + '_' + i] === undefined) return false;
+    }
+    return true;
+}
+
+function selectOption(qKey, optionIndex, el, score) {
+    answers[qKey] = optionIndex;
+    answers[qKey + '_score'] = score;
+
+    el.parentElement.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
+    el.classList.add('selected');
+
+    const allAnswered = sectionComplete(currentSection);
+    const nextBtn = document.querySelector('.primary, .result');
+    if (nextBtn) nextBtn.disabled = !allAnswered;
+}
+
+function goNext() {
+    if (currentSection < sections.length - 1) {
+        currentSection++;
+        renderSection(currentSection);
+        updateProgress();
+    }
+}
+
+function goBack() {
+    if (currentSection > 0) {
+        currentSection--;
+        renderSection(currentSection);
+        updateProgress();
+    }
+}
+
+function updateProgress() {
+    const pct = ((currentSection) / sections.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = sections[currentSection].number;
+}
+
+function calculateResults() {
+    const dimensions = {};
+    let totalScore = 0;
+    let totalQuestions = 0;
+
+    sections.forEach(function(section) {
+        let sectionScore = 0;
+        let sectionCount = 0;
+        section.questions.forEach(function(q, qIdx) {
+            const scoreKey = section.key + '_' + qIdx + '_score';
+            if (answers[scoreKey] !== undefined) {
+                sectionScore += answers[scoreKey];
+                sectionCount++;
+                totalScore += answers[scoreKey];
+                totalQuestions++;
+            }
+        });
+        dimensions[section.key] = {
+            score: sectionScore,
+            max: sectionCount * 3,
+            avg: sectionCount > 0 ? sectionScore / sectionCount : 0,
+            title: section.title
+        };
+    });
+
+    return { dimensions: dimensions, totalScore: totalScore, totalQuestions: totalQuestions, avgScore: totalScore / totalQuestions };
+}
+
+function getDimensionStatus(avg) {
+    if (avg <= 0.8) return { label: 'Gestaltet', css: 'good' };
+    if (avg <= 1.8) return { label: 'Fragil', css: 'fragile' };
+    return { label: 'Fehlt', css: 'absent' };
+}
+
+function showResults() {
+    document.getElementById('diagnosticMain').innerHTML = '';
+    document.querySelector('.progress').style.display = 'none';
+    document.querySelector('.progress-label').style.display = 'none';
+
+    const results = calculateResults();
+    const resultsEl = document.getElementById('resultsSection');
+    resultsEl.classList.add('active');
+
+    let patternClass, patternTitle, patternText;
+
+    if (results.avgScore <= 0.8) {
+        patternClass = 'green';
+        patternTitle = 'Ihre Koordinationsinfrastruktur scheint gestaltet und gepflegt zu sein.';
+        patternText = 'Ihre Antworten deuten darauf hin, dass Koordination in Ihrer Organisation nicht prim\u00e4r von informellen Netzwerken oder individuellem Einsatz abh\u00e4ngt. Systeme existieren, werden genutzt, und Wissen flie\u00dft \u00fcber Infrastruktur statt ausschlie\u00dflich \u00fcber pers\u00f6nliche Beziehungen. Das ist selten. Die Frage ist jetzt die Pflege: Koordinationsinfrastruktur degradiert, wenn sie nicht aktiv gepflegt wird \u2014 besonders in Wachstumsphasen oder bei Umstrukturierungen.';
+    } else if (results.avgScore <= 1.8) {
+        patternClass = 'amber';
+        patternTitle = 'Ihre Koordination funktioniert \u2014 aber sie h\u00e4ngt an Personen, nicht an Infrastruktur.';
+        patternText = 'Ihre Antworten deuten darauf hin, dass Koordination in Ihrer Organisation funktioniert, aber stark von einzelnen Personen, informellen Netzwerken und organisch gewachsenen Workarounds abh\u00e4ngt. Wenn diese Personen fehlen, wenn Teams wachsen oder wenn neue Tools eingef\u00fchrt werden, wird die Koordination schlechter. Die informelle Infrastruktur ist real \u2014 sie tr\u00e4gt Last \u2014 aber sie ist fragil, weil niemand sie gestaltet hat und niemand sie explizit pflegt. Hier befinden sich die meisten Organisationen. Und hier werden die Kosten fehlender Gestaltung messbar.';
+    } else {
+        patternClass = 'red';
+        patternTitle = 'Ihre Koordinationsinfrastruktur ist nicht gestaltet.';
+        patternText = 'Ihre Antworten deuten darauf hin, dass Koordination in Ihrer Organisation trotz des Systems stattfindet, nicht wegen ihm. Informationen erreichen Personen \u00fcber pers\u00f6nliche Netzwerke oder gar nicht. Tools werden eingef\u00fchrt, ohne die Koordinationsstruktur drumherum aufzubauen. Wenn Koordination scheitert, landen die Kosten bei denen, die sich nicht wehren k\u00f6nnen \u2014 Teams, die Nacharbeit leisten, Einzelpersonen, die \u00dcberstunden machen, Mitarbeitende an der Front, die mit Systemen arbeiten, die nie f\u00fcr den tats\u00e4chlichen Arbeitsablauf gestaltet wurden. Niemand hat das Mandat f\u00fcr die Gestaltung der Koordinationsinfrastruktur. Diese L\u00fccke adressiert Business Architecture \u2014 konkret: Collaboration Architecture.';
+    }
+
+    const dimNames = {
+        information_flow: 'Informationsfluss',
+        cross_team: 'Team\u00fcbergreifende Koordination',
+        workarounds: 'Workaround-Abh\u00e4ngigkeit',
+        coordination_labour: 'Koordinationsarbeit',
+        tool_deployment: 'Tool-Einf\u00fchrung',
+        mandate: 'Gestaltungsmandat',
+        leadership: 'F\u00fchrung & Koordination'
+    };
+
+    let dimHtml = '';
+    Object.entries(results.dimensions).forEach(function(entry) {
+        const key = entry[0];
+        const dim = entry[1];
+        const status = getDimensionStatus(dim.avg);
+        dimHtml += '<div class="dim-card">' +
+            '<small>' + (dimNames[key] || key) + '</small>' +
+            '<div class="status ' + status.css + '">' + status.label + '</div>' +
+            '<div class="detail">' + getDetailText(key, dim.avg) + '</div>' +
+            '</div>';
+    });
+
+    resultsEl.querySelector('#resultsContent').innerHTML =
+        '<div class="pattern ' + patternClass + '">' +
+            '<h3>' + patternTitle + '</h3>' +
+            '<p>' + patternText + '</p>' +
+        '</div>' +
+
+        '<h3 style="margin-top: 2rem; margin-bottom: 0.5rem;">Ihre sieben Dimensionen</h3>' +
+        '<p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Wie Koordinationsinfrastruktur in Ihrer Organisation sichtbar wird \u2014 oder eben nicht.</p>' +
+        '<div class="dimensions">' + dimHtml + '</div>' +
+
+        '<div class="next-steps">' +
+            '<h3>Was Sie damit anfangen k\u00f6nnen</h3>' +
+            '<p style="font-size: 0.9rem; color: #666; margin-bottom: 1rem;">Dieses Diagnosewerkzeug identifiziert Muster, keine Rezepte. Die Muster zeigen, wo Koordinationsinfrastruktur gestaltet ist, wo sie fragil ist und wo sie fehlt. Was als N\u00e4chstes kommt, h\u00e4ngt von Ihrem Kontext ab.</p>' +
+            '<a href="https://www.researchgate.net/publication/401202410_Collaboration_Architecture_A_Position_Paper" target="_blank" rel="noopener">' +
+                'Lesen \u2014 Das Position Paper: Warum diese L\u00fccke existiert und was die Disziplin adressiert \u2192' +
+            '</a>' +
+            '<a href="https://incolarc.github.io" target="_blank" rel="noopener">' +
+                'Lernen \u2014 Institut f\u00fcr Collaboration Architecture: Forschung, Weiterbildung, Methodik \u2192' +
+            '</a>' +
+            '<a href="https://ankeholst.de" target="_blank" rel="noopener">' +
+                'Erleben \u2014 Workshop \u201eTrampelpfade des Wissens\u201c: Wie Wissen tats\u00e4chlich flie\u00dft \u2192' +
+            '</a>' +
+        '</div>' +
+
+        '<div class="share">' +
+            '<p><strong>Teilen Sie dieses Diagnosewerkzeug</strong></p>' +
+            '<p>Wenn das hilfreich war, teilen Sie es mit jemandem, der sich fragt, warum die neuen Tools die Koordinationsprobleme nicht l\u00f6sen.</p>' +
+        '</div>';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getDetailText(key, avg) {
+    const texts = {
+        information_flow: {
+            good: "Wissen ist dokumentiert und auffindbar. Informationszugang h\u00e4ngt nicht davon ab, wen man kennt.",
+            fragile: "Informationen erreichen die richtigen Personen, aber \u00fcber informelle Kan\u00e4le und pers\u00f6nliche Beziehungen statt \u00fcber gestaltete Systeme.",
+            absent: "Wissen steckt in K\u00f6pfen, Meetings und pers\u00f6nlichen Netzwerken. Wer etwas braucht, muss wissen, wen man fragt."
+        },
+        cross_team: {
+            good: "Teams koordinieren sich \u00fcber Infrastruktur, die unabh\u00e4ngig von einzelnen Personen funktioniert.",
+            fragile: "Team\u00fcbergreifende Koordination funktioniert, h\u00e4ngt aber an bestimmten Personen. Wenn sie fehlen, wird es langsamer.",
+            absent: "Teams arbeiten in Silos. Koordination findet \u00fcber pers\u00f6nliche Netzwerke statt \u2014 oder gar nicht."
+        },
+        workarounds: {
+            good: "Offizielle Prozesse funktionieren gut genug, dass Workarounds selten sind.",
+            fragile: "Workarounds existieren neben offiziellen Prozessen. Einige tragen echte Koordinationslast.",
+            absent: "Informelle Kan\u00e4le und Workarounds sind die tats\u00e4chliche Koordinationsinfrastruktur. Offizielle Prozesse werden routinem\u00e4\u00dfig umgangen."
+        },
+        coordination_labour: {
+            good: "Koordinationsarbeit ist anerkannt, mit Ressourcen ausgestattet und in Rollen verankert.",
+            fragile: "Bestimmte Personen tragen Koordination informell. Ihr Beitrag ist sichtbar, aber nicht formal unterst\u00fctzt.",
+            absent: "Koordinationsarbeit ist unsichtbar. Die Personen, die den Laden zusammenhalten, werden nicht anerkannt \u2014 und die Kosten des Scheiterns landen bei denen, die sich nicht wehren k\u00f6nnen."
+        },
+        tool_deployment: {
+            good: "Tools werden unter Einbeziehung der Nutzer:innen in die Koordinationsinfrastruktur eingebaut.",
+            fragile: "Tools werden mit etwas Bedacht eingef\u00fchrt, aber die Nutzungsgestaltung bleibt den Teams \u00fcberlassen.",
+            absent: "Tools werden eingef\u00fchrt, ohne die Koordinationsstruktur drumherum aufzubauen. Jedes neue Tool erh\u00f6ht die Komplexit\u00e4t."
+        },
+        mandate: {
+            good: "Jemand hat das explizite Mandat f\u00fcr die Gestaltung der Koordinationsinfrastruktur.",
+            fragile: "Die Arbeit wird informell geleistet, aber ohne formale Befugnisse oder Anerkennung.",
+            absent: "Niemand ist verantwortlich f\u00fcr die Gestaltung der Zusammenarbeit zwischen Teams. Es f\u00e4llt zwischen OE und IT."
+        },
+        leadership: {
+            good: "Die F\u00fchrung gestaltet Koordination aktiv und lebt vor, was sie von Teams erwartet.",
+            fragile: "Die F\u00fchrung unterst\u00fctzt Koordination im Prinzip, lebt sie aber nicht konsequent vor und stattet sie nicht konsequent mit Ressourcen aus.",
+            absent: "Die F\u00fchrung reagiert auf Koordinationsversagen mit mehr Meetings, mehr Tools oder mit der Aufforderung, \u201ebesser zusammenzuarbeiten\u201c."
+        }
+    };
+
+    const level = avg <= 0.8 ? 'good' : avg <= 1.8 ? 'fragile' : 'absent';
+    return (texts[key] && texts[key][level]) || '';
+}
+
+init();
+</script>
+
+</body>
+</html>
