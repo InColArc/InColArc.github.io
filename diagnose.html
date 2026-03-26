@@ -98,7 +98,7 @@ footer a{color:#888}
 
 <h1>Das Fachwerkhaus</h1>
 <div class="draft-badge">ENTWURF</div>
-<div class="intro">In der Gestaltung von Wissensinfrastruktur müssen wir die Menschen mit dem tiefsten Wissen einbinden. Ihre Bedürfnisse sind hier zentral und denen ihrer Führungskräfte übergeordnet. <br>Also brauchen wir ein Werkzeug, um diese Infrastruktur und ihre Bestandteile verständlich darzustellen. Dafür ist diese Diagnose da. Beantworten Sie Fragen darüber, wie Ihre Organisation tatsächlich funktioniert, und schalten dann die Schwerkraft — die Arbeitsflüsse — ein.</div>
+<div class="intro">In der Gestaltung von Wissensinfrastruktur müssen wir die Menschen mit dem tiefsten Wissen einbinden. Ihre Bedürfnisse sind hier zentral und denen ihrer Führungskräfte übergeordnet. <br><br>Also brauchen wir ein Werkzeug, um diese Infrastruktur und ihre Bestandteile verständlich darzustellen. Dafür ist diese Diagnose da. Beantworten Sie Fragen darüber, wie Ihre Organisation tatsächlich funktioniert, und schalten dann die Schwerkraft — die Arbeitsflüsse — ein.</div>
 <hr>
 
 <div class="main">
@@ -127,7 +127,7 @@ footer a{color:#888}
 <!-- Row 3: Left pillar | Cross-braces | Right pillar -->
 <div class="h-left">
   <div>
-    <div class="el" id="v-wall1"><img id="img-wall1" src="" alt=""><div class="el-name">Aufgaben</div></div>
+    <div class="el" id="v-wall1"><img id="img-wall1" src="img/beam.png" alt=""><div class="el-name">transparente Aufgabenverteilung</div></div>
     <div class="figure" id="fig-wall1">🧍</div>
   </div>
 </div>
@@ -145,7 +145,7 @@ footer a{color:#888}
 </div>
 <div class="h-right">
   <div>
-    <div class="el" id="v-wall2"><img id="img-wall2" src="" alt=""><div class="el-name">Wissen</div></div>
+    <div class="el" id="v-wall2"><img id="img-wall2" src="" alt=""><div class="el-name">Wissensbibliothek</div></div>
     <div class="figure" id="fig-wall2">🧍</div>
   </div>
 </div>
@@ -153,18 +153,13 @@ footer a{color:#888}
 <!-- Row 4: Bottom beam -->
 <div class="h-bottom">
   <div>
-    <div class="el" id="v-wall3"><img id="img-wall3" src="" alt=""><div class="el-name">Besprechungen</div></div>
+    <div class="el" id="v-wall3"><img id="img-wall3" src="" alt=""><div class="el-name">zeitgleiche Besprechungen</div></div>
     <div class="figure" id="fig-wall3">🧍</div>
   </div>
 </div>
 
-<div class="foundation">GRUNDLAGE (WERTE) — SEPARAT ERHOBEN</div>
-</div><!-- /house-grid -->
+<div class="foundation">WERTESYSTEM/STANDARDS</div>
 
-<div class="legend">
-<span><b class="sw" style="background:#000"></b> Balken</span>
-<span><b class="sw" style="background:#aaa"></b> Zweig</span>
-<span><b class="sw" style="background:#fff;border:1px dashed #ccc"></b> Fehlt</span>
 </div>
 <div class="progress" id="prog">0 / 25</div>
 </div><!-- /house-box -->
@@ -417,7 +412,7 @@ function doGravity() {
   const brFr = (st.culture===1?1:0) + (st.habits===1?1:0);
   const allOk = Object.values(st).every(v => v === 2);
 
-  let h = '<h2>Ihr Haus</h2>';
+  let h = '<h2>Ihre Architektur</h2>';
 
   if (allOk) {
     h += '<p>Ihre Koordinationsinfrastruktur ist tragfähig. Das Haus steht. Das ist selten.</p>';
