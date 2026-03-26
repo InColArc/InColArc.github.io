@@ -3,122 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Das Fachwerkhaus — Collaboration Infrastructure Diagnostic</title>
+<title>Das Fachwerkhaus — DRAFT</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap');
-:root{--paper:#F5F0E8;--ink:#2C2A26;--ink-light:#6B6860;--ink-faint:#B5B0A5;--terracotta:#C4613A;--beam:#8B7355;--beam-dark:#5C4A33;--twig:#A89880;--culture:#C47A50;--habits:#A0694A;--roof-col:#6B5E50;--ff-display:'DM Serif Display',serif;--ff-body:'IBM Plex Sans',sans-serif;--ff-mono:'IBM Plex Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--paper);color:var(--ink);font-family:var(--ff-body);font-size:16px;line-height:1.6}
-.page{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
-header{text-align:center;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--ink-faint)}
-header h1{font-family:var(--ff-display);font-size:2.2rem;font-weight:400}
-header p{font-size:.95rem;color:var(--ink-light);margin-top:.4rem}
-header .credit{font-family:var(--ff-mono);font-size:.7rem;color:var(--ink-faint);margin-top:.75rem}
-header .credit a{color:var(--ink-light);text-decoration:none}
-.layout{display:grid;grid-template-columns:1fr 380px;gap:2.5rem;align-items:start}
-@media(max-width:860px){.layout{grid-template-columns:1fr}.house-panel{order:-1;position:static!important;max-width:400px;margin:0 auto}}
+body{background:#fff;color:#000;font-family:monospace;font-size:15px;line-height:1.6}
+.page{max-width:1060px;margin:0 auto;padding:2rem 1.5rem}
+header{margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid #000}
+header h1{font-size:2rem;font-weight:700;font-family:Georgia,serif}
+header p{font-size:.9rem;color:#444;margin-top:.3rem}
+header .draft{display:inline-block;border:2px solid #000;padding:2px 8px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-top:.5rem}
+.layout{display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start}
+@media(max-width:820px){.layout{grid-template-columns:1fr}.house-panel{order:-1;position:static!important;max-width:380px;margin:0 auto}}
 .questions-panel{min-width:0}
-.section{margin-bottom:2rem}
-.section-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem}
-.section-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
-.section-dot.wall{background:var(--beam)}
-.section-dot.brace{background:var(--culture)}
-.section-dot.roof{background:var(--roof-col)}
-.section-dot.gravity{background:var(--ink)}
-.section-name{font-family:var(--ff-display);font-size:1.15rem;font-weight:400}
-.question{margin-bottom:1.25rem;padding-left:22px}
-.question-text{font-size:.9rem;margin-bottom:.4rem;line-height:1.5}
+.section{margin-bottom:1.5rem}
+.section-head{font-weight:700;font-size:.95rem;margin-bottom:.5rem;padding:4px 0;border-bottom:1px solid #ccc}
+.question{margin-bottom:1rem;padding-left:16px}
+.question-text{font-size:.85rem;margin-bottom:.3rem}
 .options{list-style:none}
-.options li{margin-bottom:.3rem}
-.opt{display:block;width:100%;text-align:left;padding:.5rem .75rem;border:1px solid var(--ink-faint);border-radius:5px;background:transparent;cursor:pointer;font-family:var(--ff-body);font-size:.82rem;color:var(--ink-light);line-height:1.4;transition:all .15s}
-.opt:hover{border-color:var(--ink-light);background:rgba(0,0,0,.02)}
-.opt.s0{border-color:var(--ink-faint);color:var(--ink-faint);font-style:italic}
-.opt.s1{border-color:var(--twig);background:rgba(168,152,128,.1);color:var(--beam-dark)}
-.opt.s2{border-color:var(--beam-dark);background:rgba(92,74,51,.1);color:var(--beam-dark);font-weight:500}
-.house-panel{position:sticky;top:1.5rem}
-.house-frame{background:#fff;border:1px solid var(--ink-faint);border-radius:8px;padding:1.25rem}
-.house-label{font-family:var(--ff-mono);font-size:.65rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
-.house-canvas{position:relative;width:100%;aspect-ratio:360/400;overflow:hidden}
-
-/* ── Image slots ──
-   Each element is an absolutely positioned container.
-   The <img> inside fills it and is hidden by default.
-   JS toggles visibility based on answers.
-*/
-.el-slot{position:absolute;opacity:0;transition:opacity .5s}
+.options li{margin-bottom:.2rem}
+.opt{display:block;width:100%;text-align:left;padding:.4rem .6rem;border:1px solid #ccc;border-radius:3px;background:#fff;cursor:pointer;font-family:monospace;font-size:.8rem;color:#444;line-height:1.4;transition:all .1s}
+.opt:hover{border-color:#000;color:#000}
+.opt.s0{border-color:#aaa;color:#aaa;text-decoration:line-through}
+.opt.s1{border-color:#888;background:#f8f8f8;color:#555}
+.opt.s2{border-color:#000;background:#f0f0f0;color:#000;font-weight:700}
+.house-panel{position:sticky;top:1rem}
+.house-frame{border:2px solid #000;padding:1rem;background:#fff}
+.house-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem;color:#888}
+.house-canvas{position:relative;width:100%;aspect-ratio:36/40;overflow:hidden}
+.el-slot{position:absolute;opacity:0;transition:opacity .4s}
 .el-slot img{display:block;width:100%;height:100%;object-fit:contain}
 .el-slot.visible{opacity:1}
-
-/* Element positions as percentages of the 360x400 viewbox */
-/* Wall 1: Left pillar */
-.slot-wall1{left:16.7%;top:43.5%;width:6.7%;height:40%}
-/* Wall 2: Right pillar */
-.slot-wall2{right:16.7%;top:43.5%;width:6.7%;height:40%}
-/* Wall 3: Bottom beam */
-.slot-wall3{left:16.7%;top:83.5%;width:66.7%;height:6%}
-/* Wall 4: Top beam */
-.slot-wall4{left:16.7%;top:37.5%;width:66.7%;height:6%}
-/* Culture: diagonal bottom-right to top-left */
-.slot-culture{left:16.7%;top:43.5%;width:66.7%;height:40%}
-/* Habits: diagonal bottom-left to top-right */
-.slot-habits{left:16.7%;top:43.5%;width:66.7%;height:40%}
-/* Roof: triangle */
-.slot-roof{left:12.5%;top:10%;width:75%;height:30%}
-
-/* Guide frame overlay */
-.guide-frame{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:.12;transition:opacity .5s}
-
-/* Human figures */
-.figure{position:absolute;opacity:0;transition:opacity .6s;pointer-events:none}
+.slot-wall1{left:16%;top:43%;width:7%;height:40%}
+.slot-wall2{right:16%;top:43%;width:7%;height:40%}
+.slot-wall3{left:16%;top:83%;width:68%;height:6%}
+.slot-wall4{left:16%;top:37%;width:68%;height:6%}
+.slot-culture{left:16%;top:43%;width:68%;height:40%}
+.slot-habits{left:16%;top:43%;width:68%;height:40%}
+.slot-roof{left:12%;top:8%;width:76%;height:31%}
+.guide-frame{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:.15;transition:opacity .5s}
+.figure{position:absolute;opacity:0;transition:opacity .5s;pointer-events:none}
 .figure.visible{opacity:1}
-.fig-wall1{left:15%;top:55%;width:10%;height:25%}
-.fig-wall2{right:15%;top:55%;width:10%;height:25%}
-.fig-wall3{left:45%;top:82%;width:10%;height:12%}
-.fig-wall4{left:45%;top:36%;width:10%;height:12%}
-
-/* Element labels */
-.el-label{position:absolute;font-family:var(--ff-mono);font-size:7px;color:var(--ink-light);text-align:center;pointer-events:none;opacity:0;transition:opacity .3s}
+.fig-wall1{left:14%;top:53%;width:11%;height:26%}
+.fig-wall2{right:14%;top:53%;width:11%;height:26%}
+.fig-wall3{left:44%;top:81%;width:11%;height:13%}
+.fig-wall4{left:44%;top:35%;width:11%;height:13%}
+.el-label{position:absolute;font-size:8px;font-weight:700;color:#888;text-align:center;pointer-events:none;opacity:0;transition:opacity .3s;text-transform:uppercase;letter-spacing:.05em}
 .el-label.visible{opacity:1}
-.lbl-wall1{left:14%;top:40%;width:12%}
-.lbl-wall2{right:14%;top:40%;width:12%}
-.lbl-wall3{left:35%;top:81%;width:30%}
-.lbl-wall4{left:35%;top:35%;width:30%}
-.lbl-culture{left:25%;top:62%;width:20%;transform:rotate(-40deg)}
-.lbl-habits{right:25%;top:62%;width:20%;transform:rotate(40deg)}
-.lbl-roof{left:35%;top:25%;width:30%}
-
-/* Foundation */
-.foundation{position:absolute;bottom:3%;left:11%;width:78%;height:4.5%;border:1px solid var(--ink-faint);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--ff-mono);font-size:7px;color:var(--ink-faint)}
-
-/* Gravity arrows */
-.gravity-arrows{position:absolute;top:1%;left:0;width:100%;text-align:center;font-family:var(--ff-mono);font-size:9px;color:var(--ink-light);opacity:0;transition:opacity .5s}
+.lbl-wall1{left:12%;top:39%;width:14%}
+.lbl-wall2{right:12%;top:39%;width:14%}
+.lbl-wall3{left:33%;top:80%;width:34%}
+.lbl-wall4{left:33%;top:34%;width:34%}
+.lbl-culture{left:23%;top:61%;width:22%;transform:rotate(-40deg)}
+.lbl-habits{right:23%;top:61%;width:22%;transform:rotate(40deg)}
+.lbl-roof{left:33%;top:23%;width:34%}
+.foundation{position:absolute;bottom:2.5%;left:10%;width:80%;height:5%;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;font-size:7px;color:#aaa;text-transform:uppercase}
+.gravity-arrows{position:absolute;top:0;left:0;width:100%;text-align:center;font-size:10px;color:#888;opacity:0;transition:opacity .5s;font-weight:700}
 .gravity-arrows.visible{opacity:1}
-
-.legend{display:flex;gap:1rem;margin-top:.75rem;flex-wrap:wrap}
-.legend-item{display:flex;align-items:center;gap:.35rem;font-family:var(--ff-mono);font-size:.65rem;color:var(--ink-light)}
-.legend-swatch{width:20px;height:8px;border-radius:2px}
-.ptrack{height:2px;background:var(--ink-faint);border-radius:1px;margin-top:1rem;overflow:hidden}
-.pbar{height:100%;width:0%;background:var(--ink);transition:width .4s}
-.plabel{font-family:var(--ff-mono);font-size:.65rem;color:var(--ink-faint);margin-top:.3rem}
+.legend{display:flex;gap:1rem;margin-top:.6rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:.3rem;font-size:.65rem;color:#888}
+.legend-swatch{width:16px;height:6px;border-radius:1px}
+.ptrack{height:2px;background:#eee;margin-top:.75rem}
+.pbar{height:100%;width:0%;background:#000;transition:width .4s}
+.plabel{font-size:.65rem;color:#aaa;margin-top:.2rem}
 .gravity-area{text-align:center;margin:2rem 0;display:none}
 .gravity-area.show{display:block}
-.gravity-btn{font-family:var(--ff-display);font-size:1.3rem;padding:.8rem 2rem;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:6px;transition:all .2s}
-.gravity-btn:hover{background:var(--ink);color:var(--paper)}
-.gravity-btn:disabled{opacity:.4;cursor:default}
-.results{display:none;margin-top:1.5rem;padding:1.5rem;background:#fff;border:1px solid var(--ink-faint);border-radius:8px}
+.gravity-btn{font-family:Georgia,serif;font-size:1.2rem;padding:.7rem 1.8rem;border:2px solid #000;background:#fff;color:#000;cursor:pointer;transition:all .15s}
+.gravity-btn:hover{background:#000;color:#fff}
+.gravity-btn:disabled{opacity:.3;cursor:default}
+.results{display:none;margin-top:1.5rem;padding:1.5rem;border:2px solid #000}
 .results.show{display:block}
-.results h2{font-family:var(--ff-display);font-size:1.4rem;font-weight:400;margin-bottom:.75rem}
-.results p{font-size:.9rem;color:var(--ink-light);line-height:1.7;margin-bottom:.75rem}
-.rblock{padding:1rem;border-radius:6px;margin-bottom:1rem}
-.rblock h3{font-family:var(--ff-display);font-size:1.05rem;font-weight:400;margin-bottom:.4rem}
-.rblock.cost{background:#F3E8E0;border-left:3px solid var(--terracotta)}
-.rblock.cost h3{color:var(--terracotta)}
-.rblock.grav{background:#E8E4DC;border-left:3px solid var(--ink-light)}
-.rblock.grav h3{color:var(--ink)}
-footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--ink-faint);text-align:center;font-family:var(--ff-mono);font-size:.7rem;color:var(--ink-faint)}
-footer a{color:var(--ink-light);text-decoration:none}
-
-/* Gravity collapse animations */
+.results h2{font-family:Georgia,serif;font-size:1.3rem;margin-bottom:.6rem}
+.results p{font-size:.85rem;color:#333;line-height:1.7;margin-bottom:.6rem}
+.rblock{padding:.8rem;margin-bottom:.8rem;border-left:3px solid #000}
+.rblock.cost{background:#f8f4f0;border-color:#c44}
+.rblock.grav{background:#f4f4f4;border-color:#888}
+.rblock h3{font-family:Georgia,serif;font-size:1rem;margin-bottom:.3rem}
+.rblock.cost h3{color:#c44}
+footer{margin-top:2.5rem;padding-top:.75rem;border-top:1px solid #ccc;text-align:center;font-size:.7rem;color:#aaa}
+footer a{color:#888;text-decoration:none}
 @keyframes tiltL{to{transform:rotate(-14deg)}}
 @keyframes tiltR{to{transform:rotate(14deg)}}
 @keyframes leanL{to{transform:rotate(-5deg)}}
@@ -137,8 +99,8 @@ footer a{color:var(--ink-light);text-decoration:none}
 <div class="page">
 <header>
 <h1>Das Fachwerkhaus</h1>
-<p>Beantworten Sie Fragen darüber, wie Ihre Organisation tatsächlich arbeitet.<br>Sehen Sie, wie das Haus entsteht. Dann schalten Sie die Schwerkraft ein.</p>
-<div class="credit">Institute for Collaboration Architecture · <a href="https://incolarc.com">incolarc.com</a></div>
+<p>Beantworten Sie Fragen darüber, wie Ihre Organisation tatsächlich arbeitet. Sehen Sie, wie das Haus entsteht. Dann schalten Sie die Schwerkraft ein.</p>
+<div class="draft">Entwurf — Work in Progress</div>
 </header>
 <div class="layout">
 <div class="questions-panel" id="qP"></div>
@@ -147,96 +109,29 @@ footer a{color:var(--ink-light);text-decoration:none}
 <div class="house-label">Ihr Haus</div>
 <div class="house-canvas" id="hCanvas">
 
-<!-- ─────────────────────────────────────────────
-     IMAGE FILES — Replace these paths with your artwork.
-     
-     Base path for all images (change this one line):
-────────────────────────────────────────────── -->
-
-<!-- Guide frame: shows where all elements should go -->
 <svg class="guide-frame" id="guides" viewBox="0 0 360 400" xmlns="http://www.w3.org/2000/svg">
-<path d="M180 40L310 150L50 150Z" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
-<rect x="60" y="150" width="240" height="24" rx="2" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
-<rect x="60" y="174" width="24" height="160" rx="2" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
-<rect x="276" y="174" width="24" height="160" rx="2" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
-<rect x="60" y="334" width="240" height="24" rx="2" fill="none" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
-<line x1="84" y1="334" x2="276" y2="174" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
-<line x1="276" y1="334" x2="84" y2="174" stroke="#888" stroke-width="1" stroke-dasharray="4 4"/>
+<path d="M180 35L315 150L45 150Z" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="60" y="150" width="240" height="24" rx="1" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="60" y="174" width="24" height="160" rx="1" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="276" y="174" width="24" height="160" rx="1" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
+<rect x="60" y="334" width="240" height="24" rx="1" fill="none" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="84" y1="334" x2="276" y2="174" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="276" y1="334" x2="84" y2="174" stroke="#000" stroke-width="1" stroke-dasharray="4 4"/>
 </svg>
 
-<!-- WALL 1: Left pillar — Aufgabenverteilung -->
-<div class="el-slot slot-wall1" id="e-wall1" data-element="wall1">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.png" alt="Balken: Aufgabenverteilung" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Aufgabenverteilung" style="display:none">
-</div>
+<div class="el-slot slot-wall1" id="e-wall1"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
+<div class="el-slot slot-wall2" id="e-wall2"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
+<div class="el-slot slot-wall3" id="e-wall3"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
+<div class="el-slot slot-wall4" id="e-wall4"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
+<div class="el-slot slot-culture" id="e-culture"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
+<div class="el-slot slot-habits" id="e-habits"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
+<div class="el-slot slot-roof" id="e-roof"><img class="img-beam" style="display:none"><img class="img-twig" style="display:none"></div>
 
-<!-- WALL 2: Right pillar — Wissensressourcen -->
-<div class="el-slot slot-wall2" id="e-wall2" data-element="wall2">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.png" alt="Balken: Wissensressourcen" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Wissensressourcen" style="display:none">
-</div>
+<svg class="figure fig-wall1" id="f-wall1" viewBox="0 0 40 100"><ellipse cx="20" cy="12" rx="7" ry="9" fill="none" stroke="#000" stroke-width="2"/><line x1="20" y1="21" x2="20" y2="58" stroke="#000" stroke-width="2"/><line x1="20" y1="32" x2="8" y2="20" stroke="#000" stroke-width="2"/><line x1="20" y1="32" x2="32" y2="20" stroke="#000" stroke-width="2"/><line x1="20" y1="58" x2="10" y2="88" stroke="#000" stroke-width="2"/><line x1="20" y1="58" x2="30" y2="88" stroke="#000" stroke-width="2"/></svg>
+<svg class="figure fig-wall2" id="f-wall2" viewBox="0 0 40 100"><ellipse cx="20" cy="12" rx="7" ry="9" fill="none" stroke="#000" stroke-width="2"/><line x1="20" y1="21" x2="20" y2="58" stroke="#000" stroke-width="2"/><line x1="20" y1="32" x2="8" y2="20" stroke="#000" stroke-width="2"/><line x1="20" y1="32" x2="32" y2="20" stroke="#000" stroke-width="2"/><line x1="20" y1="58" x2="10" y2="88" stroke="#000" stroke-width="2"/><line x1="20" y1="58" x2="30" y2="88" stroke="#000" stroke-width="2"/></svg>
+<svg class="figure fig-wall3" id="f-wall3" viewBox="0 0 40 50"><ellipse cx="20" cy="8" rx="6" ry="7" fill="none" stroke="#000" stroke-width="2"/><line x1="20" y1="15" x2="20" y2="34" stroke="#000" stroke-width="2"/><line x1="20" y1="22" x2="10" y2="14" stroke="#000" stroke-width="2"/><line x1="20" y1="22" x2="30" y2="14" stroke="#000" stroke-width="2"/></svg>
+<svg class="figure fig-wall4" id="f-wall4" viewBox="0 0 40 50"><ellipse cx="20" cy="8" rx="6" ry="7" fill="none" stroke="#000" stroke-width="2"/><line x1="20" y1="15" x2="20" y2="34" stroke="#000" stroke-width="2"/><line x1="20" y1="22" x2="10" y2="14" stroke="#000" stroke-width="2"/><line x1="20" y1="22" x2="30" y2="14" stroke="#000" stroke-width="2"/></svg>
 
-<!-- WALL 3: Bottom beam — Besprechungen -->
-<div class="el-slot slot-wall3" id="e-wall3" data-element="wall3">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.png" alt="Balken: Besprechungen" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Besprechungen" style="display:none">
-</div>
-
-<!-- WALL 4: Top beam — Kommunikation -->
-<div class="el-slot slot-wall4" id="e-wall4" data-element="wall4">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.pngg" alt="Balken: Kommunikation" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Kommunikation" style="display:none">
-</div>
-
-<!-- CROSS-BRACE: Culture -->
-<div class="el-slot slot-culture" id="e-culture" data-element="culture">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.png" alt="Balken: Kultur" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Kultur" style="display:none">
-</div>
-
-<!-- CROSS-BRACE: Habits -->
-<div class="el-slot slot-habits" id="e-habits" data-element="habits">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.png" alt="Balken: Gewohnheiten" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Gewohnheiten" style="display:none">
-</div>
-
-<!-- ROOF: Leadership -->
-<div class="el-slot slot-roof" id="e-roof" data-element="roof">
-  <img class="img-beam" src="https://incolarc.github.io/img/beam.png" alt="Balken: Führung" style="display:none">
-  <img class="img-twig" src="https://incolarc.github.io/img/twig.png" alt="Zweig: Führung" style="display:none">
-</div>
-
-<!-- Human figures (appear where structure is absent) -->
-<svg class="figure fig-wall1" id="f-wall1" viewBox="0 0 40 100" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="20" cy="12" rx="8" ry="10" fill="none" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="22" x2="20" y2="60" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="35" x2="6" y2="22" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="35" x2="34" y2="22" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="60" x2="10" y2="90" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="60" x2="30" y2="90" stroke="#C4613A" stroke-width="2"/>
-</svg>
-<svg class="figure fig-wall2" id="f-wall2" viewBox="0 0 40 100" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="20" cy="12" rx="8" ry="10" fill="none" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="22" x2="20" y2="60" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="35" x2="6" y2="22" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="35" x2="34" y2="22" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="60" x2="10" y2="90" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="60" x2="30" y2="90" stroke="#C4613A" stroke-width="2"/>
-</svg>
-<svg class="figure fig-wall3" id="f-wall3" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="20" cy="8" rx="6" ry="8" fill="none" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="16" x2="20" y2="35" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="22" x2="10" y2="16" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="22" x2="30" y2="16" stroke="#C4613A" stroke-width="2"/>
-</svg>
-<svg class="figure fig-wall4" id="f-wall4" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
-<ellipse cx="20" cy="8" rx="6" ry="8" fill="none" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="16" x2="20" y2="35" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="22" x2="10" y2="16" stroke="#C4613A" stroke-width="2"/>
-<line x1="20" y1="22" x2="30" y2="16" stroke="#C4613A" stroke-width="2"/>
-</svg>
-
-<!-- Element labels -->
 <div class="el-label lbl-wall1" id="l-wall1">Aufgaben</div>
 <div class="el-label lbl-wall2" id="l-wall2">Wissen</div>
 <div class="el-label lbl-wall3" id="l-wall3">Besprechungen</div>
@@ -244,81 +139,36 @@ footer a{color:var(--ink-light);text-decoration:none}
 <div class="el-label lbl-culture" id="l-culture">Kultur</div>
 <div class="el-label lbl-habits" id="l-habits">Gewohnheiten</div>
 <div class="el-label lbl-roof" id="l-roof">Führung</div>
-
-<!-- Foundation -->
 <div class="foundation">Grundlage (Werte) — separat erhoben</div>
-
-<!-- Gravity arrows -->
-<div class="gravity-arrows" id="gravArrows">↓ ↓ ↓ Schwerkraft ↓ ↓ ↓</div>
-
-</div><!-- /house-canvas -->
-
+<div class="gravity-arrows" id="gravArrows">↓ ↓ ↓ SCHWERKRAFT ↓ ↓ ↓</div>
+</div>
 <div class="legend">
-<div class="legend-item"><div class="legend-swatch" style="background:var(--beam)"></div>Balken (gestaltet)</div>
-<div class="legend-item"><div class="legend-swatch" style="background:var(--twig);opacity:.6"></div>Zweig (fragil)</div>
-<div class="legend-item"><div class="legend-swatch" style="background:transparent;border:1px dashed var(--ink-faint)"></div>Fehlt</div>
+<div class="legend-item"><div class="legend-swatch" style="background:#000"></div>Balken</div>
+<div class="legend-item"><div class="legend-swatch" style="background:#aaa"></div>Zweig</div>
+<div class="legend-item"><div class="legend-swatch" style="background:#fff;border:1px dashed #ccc"></div>Fehlt</div>
 </div>
 <div class="ptrack"><div class="pbar" id="pBar"></div></div>
-<div class="plabel" id="pLabel">0 von 25 beantwortet</div>
+<div class="plabel" id="pLabel">0/25</div>
 </div>
 </div>
 </div>
-
 <div class="gravity-area" id="gArea">
-<p style="font-size:.85rem;color:var(--ink-light);margin-bottom:1rem">Alle Fragen beantwortet.</p>
 <button class="gravity-btn" id="gBtn" onclick="applyGravity()">Schwerkraft einschalten</button>
 </div>
 <div class="results" id="res"></div>
-
 <footer>
-<p>Institute for Collaboration Architecture · <a href="https://incolarc.com">incolarc.com</a> · 2026</p>
-<p style="margin-top:.3rem">Alle Antworten bleiben in Ihrem Browser. Es werden keine Daten gesendet.</p>
+<p>Institute for Collaboration Architecture · <a href="https://incolarc.com">incolarc.com</a> · 2026 · ENTWURF</p>
+<p style="margin-top:.2rem">Keine Daten werden gesendet. Alles bleibt im Browser.</p>
 </footer>
 </div>
-
 <script>
-/*
- ══════════════════════════════════════════════════════════
-  IMAGE CONFIGURATION
-  
-  Change IMG_BASE to point to your image folder.
-  Images needed (14 files):
-  
-  Vertical pillars:
-    wall1-beam.svg   wall1-twig.svg   (left pillar)
-    wall2-beam.svg   wall2-twig.svg   (right pillar)
-  
-  Horizontal beams:
-    wall3-beam.svg   wall3-twig.svg   (bottom beam)
-    wall4-beam.svg   wall4-twig.svg   (top beam)
-  
-  Diagonal cross-braces:
-    culture-beam.svg  culture-twig.svg  (bottom-right to top-left)
-    habits-beam.svg   habits-twig.svg   (bottom-left to top-right)
-  
-  Roof:
-    roof-beam.svg    roof-twig.svg     (triangle)
-
-  Formats: SVG preferred. PNG with transparent background also works.
-  If using PNG, change the file extensions below.
- ══════════════════════════════════════════════════════════
-*/
-const IMG_BASE = 'img/';  // ← Change this to your image folder path
-const IMG_EXT = '.svg';   // ← Change to '.png' if using PNG files
-
-// Build image paths
-function imgPath(element, state) {
-  return IMG_BASE + element + '-' + (state === 2 ? 'beam' : 'twig') + IMG_EXT;
-}
-
-// Update all image src attributes based on config
-document.querySelectorAll('.el-slot').forEach(slot => {
-  const el = slot.dataset.element;
-  slot.querySelector('.img-beam').src = imgPath(el, 2);
-  slot.querySelector('.img-twig').src = imgPath(el, 1);
+// ── Images: same beam/twig for all positions ──
+const BEAM='img/beam.png', TWIG='img/twig.png';
+document.querySelectorAll('.el-slot').forEach(el=>{
+el.querySelector('.img-beam').src=BEAM;
+el.querySelector('.img-twig').src=TWIG;
 });
 
-// ── Question data ────────────────────────────────────
 const S=[
 {id:'wall1',t:'wall',name:'Wand 1 — Aufgabenverteilung',qs:[
 {text:'Wenn Arbeit anfällt und niemand offiziell zuständig ist — wie wird sie verteilt?',opts:[
@@ -419,213 +269,27 @@ const S=[
 {l:'Nein — Tools werden ausgerollt und man soll sich anpassen',s:0}]}
 ]}
 ];
-
 const G={id:'gravity',t:'gravity',name:'Schwerkraft — Was drückt auf diese Struktur?',qs:[
 {text:'Wie häufig durchläuft Ihre Organisation grundlegende Veränderungen?',opts:[
-{l:'Ständig — Veränderung ist Dauerzustand',s:3},
-{l:'Alle ein bis zwei Jahre',s:2},
-{l:'Selten — es ist relativ stabil',s:1}]},
+{l:'Ständig — Veränderung ist Dauerzustand',s:3},{l:'Alle ein bis zwei Jahre',s:2},{l:'Selten — es ist relativ stabil',s:1}]},
 {text:'Wie viel Ihrer Arbeit hängt von Abstimmung über Team- oder Abteilungsgrenzen hinweg ab?',opts:[
-{l:'Fast alles — nichts geht allein',s:3},
-{l:'Ein erheblicher Teil',s:2},
-{l:'Überwiegend eigenständige Arbeit innerhalb der Teams',s:1}]},
+{l:'Fast alles — nichts geht allein',s:3},{l:'Ein erheblicher Teil',s:2},{l:'Überwiegend eigenständige Arbeit innerhalb der Teams',s:1}]},
 {text:'Wenn wichtige Personen gehen — wie viel Wissen geht mit ihnen?',opts:[
-{l:'Kritisches Wissen verschwindet — Projekte geraten ins Stocken',s:3},
-{l:'Es gibt Störungen, aber das Team erholt sich',s:2},
-{l:'Minimale Auswirkung — Wissen ist dokumentiert',s:1}]},
+{l:'Kritisches Wissen verschwindet — Projekte geraten ins Stocken',s:3},{l:'Es gibt Störungen, aber das Team erholt sich',s:2},{l:'Minimale Auswirkung — Wissen ist dokumentiert',s:1}]},
 {text:'Wie viele der Tools und Prozesse wurden eingeführt, ohne die Menschen zu fragen, die damit arbeiten?',opts:[
-{l:'Die meisten',s:3},
-{l:'Einige',s:2},
-{l:'Sehr wenige — die Menschen wurden einbezogen',s:1}]}
+{l:'Die meisten',s:3},{l:'Einige',s:2},{l:'Sehr wenige — die Menschen wurden einbezogen',s:1}]}
 ]};
-
-// ── State ────────────────────────────────────────────
 const ans={},gans={};
-const totalS=S.reduce((n,s)=>n+s.qs.length,0);
-const totalG=G.qs.length;
-const totalQ=totalS+totalG;
+const totalQ=S.reduce((n,s)=>n+s.qs.length,0)+G.qs.length;
 let done=0;
-
-// ── Render ───────────────────────────────────────────
-function render(){
-const p=document.getElementById('qP');
-let h='';
-S.forEach(s=>{h+=sec(s)});
-h+=sec(G);
-p.innerHTML=h;
-}
-
-function sec(s){
-let h=`<div class="section"><div class="section-head"><div class="section-dot ${s.t}"></div><div class="section-name">${s.name}</div></div>`;
-s.qs.forEach((q,i)=>{
-const qid=s.id+'-'+i;
-h+=`<div class="question"><p class="question-text">${q.text}</p><ul class="options">`;
-q.opts.forEach(o=>{
-h+=`<li><button class="opt" data-q="${qid}" data-s="${o.s}" data-sec="${s.id}" onclick="pick(this)">${o.l}</button></li>`;
-});
-h+='</ul></div>';
-});
-return h+'</div>';
-}
-
-// ── Interaction ──────────────────────────────────────
-function pick(b){
-const qid=b.dataset.q,score=+b.dataset.s,sid=b.dataset.sec;
-const isG=sid==='gravity';
-const store=isG?gans:ans;
-if(store[qid]===undefined)done++;
-store[qid]=score;
-document.querySelectorAll(`[data-q="${qid}"]`).forEach(x=>x.className='opt');
-b.classList.add('s'+score);
-document.getElementById('pBar').style.width=(done/totalQ*100)+'%';
-document.getElementById('pLabel').textContent=done+' von '+totalQ+' beantwortet';
-if(!isG)upEl(sid);
-if(done>=totalQ)document.getElementById('gArea').classList.add('show');
-}
-
-function state(sid){
-const s=S.find(x=>x.id===sid);
-if(!s)return null;
-const sc=[];
-s.qs.forEach((q,i)=>{const k=sid+'-'+i;if(ans[k]!==undefined)sc.push(ans[k])});
-if(!sc.length)return null;
-if(sc.includes(0))return 0;
-if(sc.includes(1))return 1;
-return 2;
-}
-
-function upEl(sid){
-const st=state(sid);
-const el=document.getElementById('e-'+sid);
-const label=document.getElementById('l-'+sid);
-const fig=document.getElementById('f-'+sid);
-
-if(st===null){
-  el.classList.remove('visible');
-  label.classList.remove('visible');
-  return;
-}
-
-// Show the slot and label
-el.classList.add('visible');
-label.classList.add('visible');
-
-// Hide both images first
-el.querySelector('.img-beam').style.display='none';
-el.querySelector('.img-twig').style.display='none';
-
-if(st===2){
-  el.querySelector('.img-beam').style.display='block';
-} else if(st===1){
-  el.querySelector('.img-twig').style.display='block';
-}
-// st===0: both stay hidden (absent)
-
-// Show/hide human figure
-if(fig){
-  if(st===0) fig.classList.add('visible');
-  else fig.classList.remove('visible');
-}
-
-// Fade guide frame
-const answered=S.filter(s=>state(s.id)!==null).length;
-document.getElementById('guides').style.opacity=Math.max(.03,.12-answered/S.length*.12);
-}
-
-// ── Gravity ──────────────────────────────────────────
-function gWeight(){
-let t=0,c=0;
-G.qs.forEach((q,i)=>{const k='gravity-'+i;if(gans[k]!==undefined){t+=gans[k];c++}});
-if(!c)return'light';
-const a=t/c;
-return a>=2.5?'heavy':a>=1.8?'moderate':'light';
-}
-
-function applyGravity(){
-const btn=document.getElementById('gBtn');
-btn.disabled=true;btn.textContent='Schwerkraft wirkt...';
-const canvas=document.getElementById('hCanvas');
-const w=gWeight();
-document.getElementById('gravArrows').classList.add('visible');
-
-// Show all figures for absent elements
-S.forEach(s=>{
-  const fig=document.getElementById('f-'+s.id);
-  if(fig && state(s.id)===0) fig.classList.add('visible');
-});
-
-const st={};S.forEach(s=>{st[s.id]=state(s.id)});
-const brAbsent=(st.culture===0?1:0)+(st.habits===0?1:0);
-const brFrail=(st.culture===1?1:0)+(st.habits===1?1:0);
-
-setTimeout(()=>{
-canvas.classList.add('grav-on');
-const w1=document.getElementById('e-wall1');
-const w2=document.getElementById('e-wall2');
-const rf=document.getElementById('e-roof');
-
-if(brAbsent===2){
-if(st.wall1!==0)w1.classList.add('do-tiltL');
-if(st.wall2!==0)w2.classList.add('do-tiltR');
-if(st.roof!==0)rf.classList.add('do-rsink');
-}else if(brAbsent===1||brFrail>0){
-if(st.wall1!==0)w1.classList.add('do-leanL');
-if(st.wall2!==0)w2.classList.add('do-leanR');
-}
-
-if(w==='heavy'){
-document.querySelectorAll('.figure.visible').forEach(f=>f.classList.add('do-buckle'));
-}
-
-setTimeout(()=>showResults(st,w),2500);
-},300);
-}
-
-function showResults(st,w){
-const r=document.getElementById('res');
-let h='<h2>Ihr Haus</h2>';
-const brAbs=(st.culture===0?1:0)+(st.habits===0?1:0);
-const brFr=(st.culture===1?1:0)+(st.habits===1?1:0);
-const wn={wall1:'Aufgabenverteilung',wall2:'Wissensressourcen',wall3:'Besprechungen',wall4:'Kommunikation'};
-const allBeam=Object.values(st).every(v=>v===2);
-
-if(allBeam){
-h+='<p>Ihre Koordinationsinfrastruktur ist tragfähig. Das Haus steht. Das ist selten — und es lohnt sich, es zu schützen.</p>';
-}else{
-if(brAbs===2){
-h+='<p>Sie haben Wände, aber nichts verbindet sie. Werkzeuge existieren, aber ohne Kultur und Gewohnheiten, die sie zusammenhalten, wird die erste ernsthafte Belastung die Wände nach außen drücken. Die Struktur fällt nicht, weil Teile fehlen, sondern weil nichts die Kräfte zwischen ihnen überträgt.</p>';
-}else if(brAbs===1){
-const miss=st.culture===0?'Kultur':'Gewohnheiten';
-const have=st.culture===0?'Gewohnheiten':'Kultur';
-h+=`<p>Die Querstrebe ${have} hält, aber ${miss} fehlt. ${miss==='Kultur'?'Menschen folgen Abläufen, aber vertrauen dem System nicht — Compliance ohne Commitment.':'Menschen vertrauen einander, aber es gibt keine verlässlichen Praktiken — Wohlwollen ohne Zuverlässigkeit.'}</p>`;
-}else if(brFr>0){
-h+='<p>Ihre Querstreben sind Zweige, keine Balken. Kultur und Gewohnheiten existieren, aber sie hängen von bestimmten Personen oder informellen Absprachen ab. Das hält — bis sich etwas ändert.</p>';
-}
-const absent=Object.entries(wn).filter(([k])=>st[k]===0);
-const twigs=Object.entries(wn).filter(([k])=>st[k]===1);
-if(twigs.length>0)h+=`<p><strong>${twigs.map(([,n])=>n).join(' und ')}</strong> — ${twigs.length>1?'funktionieren':'funktioniert'}, weil bestimmte Menschen es am Laufen halten. Wenn diese Menschen gehen, geht die Wand mit.</p>`;
-if(absent.length>0)h+=`<p><strong>${absent.map(([,n])=>n).join(' und ')}</strong> — nicht vorhanden. Andere Elemente, die darauf aufbauen, hängen in der Luft.</p>`;
-if(st.roof!==0&&(brAbs>0||twigs.length>=2)){
-h+='<p>Ihre Führung legt strategisches Gewicht auf eine Struktur, die es nicht tragen kann. Das Dach drückt die Wände nach außen. Strategie macht es schlimmer, nicht besser.</p>';
-}}
-
-h+=`<div class="rblock grav"><h3>Die Schwerkraft</h3>`;
-if(w==='heavy')h+='<p>Ihre Organisation steht unter hohem Druck: ständige Veränderung, starke Abhängigkeit von Abstimmung, Wissensverlust bei Personalwechsel. Diese Last drückt auf die Struktur — und wo Balken fehlen, auf die Menschen darunter.</p>';
-else if(w==='moderate')h+='<p>Ihre Organisation trägt eine mittlere Last. Eine tragfähige Struktur hält das aus — eine aus Zweigen wird bei der nächsten Belastung nachgeben.</p>';
-else h+='<p>Ihre Organisation ist relativ stabil. Auch eine schwächere Struktur kann das vorübergehend tragen — aber sie wird nicht mitwachsen, wenn sich das ändert.</p>';
-h+='</div>';
-
-h+=`<div class="rblock cost"><h3>Wo landen die Kosten?</h3>`;
-h+='<p>Jedes fehlende oder fragile Element bedeutet: Koordinationsarbeit wird von jemandem informell erledigt — oder gar nicht. Die Kosten verschwinden nicht. Sie landen bei denen, die sich nicht wehren können.</p>';
-const absent2=Object.entries(wn).filter(([k])=>st[k]===0);
-if(absent2.length>0)h+='<p>In Ihrer Organisation tragen gerade Menschen die Last von fehlender Infrastruktur. Das sind die Menschen, die „irgendwie dafür sorgen, dass es läuft" — bis sie es nicht mehr können.</p>';
-h+='</div>';
-h+='<p style="margin-top:1.5rem;font-size:.9rem;color:var(--ink);font-weight:500">Wer in Ihrer Organisation sollte dieses Haus noch sehen?</p>';
-r.innerHTML=h;
-r.classList.add('show');
-r.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
+function render(){const p=document.getElementById('qP');let h='';S.forEach(s=>{h+=sec(s)});h+=sec(G);p.innerHTML=h}
+function sec(s){let h=`<div class="section"><div class="section-head">${s.name}</div>`;s.qs.forEach((q,i)=>{const qid=s.id+'-'+i;h+=`<div class="question"><p class="question-text">${q.text}</p><ul class="options">`;q.opts.forEach(o=>{h+=`<li><button class="opt" data-q="${qid}" data-s="${o.s}" data-sec="${s.id}" onclick="pick(this)">${o.l}</button></li>`});h+='</ul></div>'});return h+'</div>'}
+function pick(b){const qid=b.dataset.q,score=+b.dataset.s,sid=b.dataset.sec,isG=sid==='gravity',store=isG?gans:ans;if(store[qid]===undefined)done++;store[qid]=score;document.querySelectorAll(`[data-q="${qid}"]`).forEach(x=>x.className='opt');b.classList.add('s'+score);document.getElementById('pBar').style.width=(done/totalQ*100)+'%';document.getElementById('pLabel').textContent=done+'/'+totalQ;if(!isG)upEl(sid);if(done>=totalQ)document.getElementById('gArea').classList.add('show')}
+function state(sid){const s=S.find(x=>x.id===sid);if(!s)return null;const sc=[];s.qs.forEach((q,i)=>{const k=sid+'-'+i;if(ans[k]!==undefined)sc.push(ans[k])});if(!sc.length)return null;if(sc.includes(0))return 0;if(sc.includes(1))return 1;return 2}
+function upEl(sid){const st=state(sid),el=document.getElementById('e-'+sid),label=document.getElementById('l-'+sid),fig=document.getElementById('f-'+sid);if(st===null){el.classList.remove('visible');label.classList.remove('visible');return}el.classList.add('visible');label.classList.add('visible');el.querySelector('.img-beam').style.display='none';el.querySelector('.img-twig').style.display='none';if(st===2)el.querySelector('.img-beam').style.display='block';else if(st===1)el.querySelector('.img-twig').style.display='block';if(fig){if(st===0)fig.classList.add('visible');else fig.classList.remove('visible')}const a=S.filter(s=>state(s.id)!==null).length;document.getElementById('guides').style.opacity=Math.max(.03,.15-a/S.length*.15)}
+function gWeight(){let t=0,c=0;G.qs.forEach((q,i)=>{const k='gravity-'+i;if(gans[k]!==undefined){t+=gans[k];c++}});if(!c)return'light';const a=t/c;return a>=2.5?'heavy':a>=1.8?'moderate':'light'}
+function applyGravity(){const btn=document.getElementById('gBtn');btn.disabled=true;btn.textContent='...';const canvas=document.getElementById('hCanvas'),w=gWeight();document.getElementById('gravArrows').classList.add('visible');S.forEach(s=>{const fig=document.getElementById('f-'+s.id);if(fig&&state(s.id)===0)fig.classList.add('visible')});const st={};S.forEach(s=>{st[s.id]=state(s.id)});const brAbs=(st.culture===0?1:0)+(st.habits===0?1:0),brFr=(st.culture===1?1:0)+(st.habits===1?1:0);setTimeout(()=>{canvas.classList.add('grav-on');const w1=document.getElementById('e-wall1'),w2=document.getElementById('e-wall2'),rf=document.getElementById('e-roof');if(brAbs===2){if(st.wall1!==0)w1.classList.add('do-tiltL');if(st.wall2!==0)w2.classList.add('do-tiltR');if(st.roof!==0)rf.classList.add('do-rsink')}else if(brAbs===1||brFr>0){if(st.wall1!==0)w1.classList.add('do-leanL');if(st.wall2!==0)w2.classList.add('do-leanR')}if(w==='heavy')document.querySelectorAll('.figure.visible').forEach(f=>f.classList.add('do-buckle'));setTimeout(()=>showResults(st,w),2500)},300)}
+function showResults(st,w){const r=document.getElementById('res');let h='<h2>Ihr Haus</h2>';const brAbs=(st.culture===0?1:0)+(st.habits===0?1:0),brFr=(st.culture===1?1:0)+(st.habits===1?1:0),wn={wall1:'Aufgabenverteilung',wall2:'Wissensressourcen',wall3:'Besprechungen',wall4:'Kommunikation'},allB=Object.values(st).every(v=>v===2);if(allB){h+='<p>Ihre Koordinationsinfrastruktur ist tragfähig. Das Haus steht. Das ist selten.</p>'}else{if(brAbs===2)h+='<p>Sie haben Wände, aber nichts verbindet sie. Werkzeuge existieren, aber ohne Kultur und Gewohnheiten wird die erste ernsthafte Belastung die Wände nach außen drücken.</p>';else if(brAbs===1){const miss=st.culture===0?'Kultur':'Gewohnheiten',have=st.culture===0?'Gewohnheiten':'Kultur';h+=`<p>Die Querstrebe ${have} hält, aber ${miss} fehlt. ${miss==='Kultur'?'Compliance ohne Commitment.':'Wohlwollen ohne Zuverlässigkeit.'}</p>`}else if(brFr>0)h+='<p>Ihre Querstreben sind Zweige, keine Balken. Das hält — bis sich etwas ändert.</p>';const absent=Object.entries(wn).filter(([k])=>st[k]===0),twigs=Object.entries(wn).filter(([k])=>st[k]===1);if(twigs.length>0)h+=`<p><strong>${twigs.map(([,n])=>n).join(', ')}</strong> — funktioniert, weil bestimmte Menschen es am Laufen halten.</p>`;if(absent.length>0)h+=`<p><strong>${absent.map(([,n])=>n).join(', ')}</strong> — nicht vorhanden.</p>`;if(st.roof!==0&&(brAbs>0||twigs.length>=2))h+='<p>Das Dach drückt die Wände nach außen. Strategie macht es schlimmer.</p>'}h+=`<div class="rblock grav"><h3>Schwerkraft</h3>`;if(w==='heavy')h+='<p>Hoher Druck. Wo Balken fehlen, drückt die Last auf Menschen.</p>';else if(w==='moderate')h+='<p>Mittlere Last. Zweige geben bei der nächsten Belastung nach.</p>';else h+='<p>Relativ stabil. Aber die Struktur wächst nicht mit.</p>';h+='</div>';h+=`<div class="rblock cost"><h3>Wo landen die Kosten?</h3><p>Jedes fehlende Element bedeutet: jemand trägt die Last informell. Die Kosten landen bei denen, die sich nicht wehren können.</p></div>`;h+='<p style="margin-top:1.2rem;font-weight:700">Wer in Ihrer Organisation sollte dieses Haus noch sehen?</p>';r.innerHTML=h;r.classList.add('show');r.scrollIntoView({behavior:'smooth',block:'start'})}
 render();
 </script>
 </body>
