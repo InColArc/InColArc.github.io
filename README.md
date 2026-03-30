@@ -32,31 +32,42 @@ Seven assessable elements, each with three possible states.
 Four walls
 
 Each wall represents a category of collaboration tool — not a specific product, but a function.
+
 Left wall — Structured distribution of tasks
 Examples: Jira, ServiceNow, Planner, any system where work gets assigned and tracked.
+
 What it does: Makes visible who is doing what. Prevents work falling through cracks. Creates accountability without requiring someone to hold it all in their head.
+
 Right wall — Knowledge resources
 Examples: Confluence, SharePoint, Wiki, any persistent searchable store of documented knowledge.
+
 What it does: Makes knowledge findable without asking a person. Prevents knowledge from being trapped in heads. Creates organisational memory.
-Left lower wall — Complex questions and relationship care (live meetings)
+
+Floor — Complex questions and relationship care (live meetings)
 Examples: Scheduled meetings, offsites, workshops, one-to-ones.
+
 What it does: Handles what async cannot — nuance, conflict, trust-building, complex problem-solving. The only collaboration function that existed before digital tools.
-Right lower wall — Quick informal group communication
+
+Ceiling — Quick informal group communication
 Examples: Teams Chat, Slack, WhatsApp groups (when official tools fail).
+
 What it does: Handles rapid tactical coordination. The organisational nervous system. Creates searchable records of decisions and context that would otherwise live only in oral memory.
 
 Two cross-braces
 
 The cross-braces are what make the walls bear load. Without them, tools exist but don't function as infrastructure.
-Cross-brace 1 (diagonal, left-to-right) — Culture
+
+Cross-brace 1 (diagonal, lower left to upper right) — Culture
 Trust, openness, shared responsibility. Is asking for help seen as competence or weakness? Do people share partial solutions or only finished work? Are mistakes discussed openly? Who gets credit for collaborative success?
-Cross-brace 2 (diagonal, right-to-left) — Habits
+
+Cross-brace 2 (diagonal, lower right to upper left) — Habits
 Read, respond, who does what when. Do people check shared channels before scheduling meetings? Is "I will document this" a common phrase? How do experienced people onboard newcomers? Where do people go first with problems — boss, colleague, documentation?
 
 Roof
 
 Strategic intent and leadership
 Does leadership model collaborative behaviour? Is collaboration measured or just mentioned? Are collaboration tools resourced or just provided? Is fire prevention recognised, or only firefighting?
+
 The position paper states: "The structure can exist and be stable without a roof — but it needs one sooner or later." In the tool, the roof is assessed last. If the structure below is absent, the roof question becomes: your leadership is putting weight on a structure that isn't there.
 
 The three states
