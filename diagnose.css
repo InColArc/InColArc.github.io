@@ -178,6 +178,12 @@ hr {
   margin-bottom: 4px;
 }
 
+.roof-label {
+  font-size: 10px;
+  color: #666;
+  line-height: 1.4;
+}
+
 /* ── Walls and beams ── */
 .h-top     { grid-column: 1/4; grid-row: 2; height: 30px;  display: flex; align-items: center; justify-content: center; }
 .h-left    { grid-column: 1;   grid-row: 3; display: flex; align-items: center; justify-content: center; }
