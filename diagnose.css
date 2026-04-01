@@ -165,7 +165,7 @@ hr {
 .h-roof-left .el img {
   height: 80px;
   width: auto;
-  transform: rotate(30deg);
+  transform: rotate(-45deg);
   transform-origin: bottom right;
   display: block;
 }
@@ -173,7 +173,7 @@ hr {
 .h-roof-right .el img {
   height: 80px;
   width: auto;
-  transform: rotate(-30deg);
+  transform: rotate(45deg);
   transform-origin: bottom left;
   display: block;
 }
