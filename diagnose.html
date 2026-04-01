@@ -31,12 +31,12 @@ hr{border:none;border-top:1px solid #ccc;margin:20px 0}
 
 /* Grid areas */
 /* Roof: three cells in row 1 */
-.h-roof-left{grid-column:1;grid-row:1;height:100px;display:flex;align-items:flex-end;justify-content:flex-end;overflow:visible}
+.h-roof-left{grid-column:1;grid-row:1;height:100px;display:flex;align-items:flex-end;justify-content:flex-end;overflow:hidden}
 .h-roof-center{grid-column:2;grid-row:1;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;text-align:center}
-.h-roof-right{grid-column:3;grid-row:1;height:100px;display:flex;align-items:flex-end;justify-content:flex-start;overflow:visible}
+.h-roof-right{grid-column:3;grid-row:1;height:100px;display:flex;align-items:flex-end;justify-content:flex-start;overflow:hidden}
 
-.h-roof-left .el img{width:140px;height:auto;transform:rotate(30deg);transform-origin:bottom right}
-.h-roof-right .el img{width:140px;height:auto;transform:rotate(-30deg);transform-origin:bottom left}
+.h-roof-left .el img{height:90px;width:auto;transform:rotate(30deg);transform-origin:bottom right;display:block}
+.h-roof-right .el img{height:90px;width:auto;transform:rotate(-30deg);transform-origin:bottom left;display:block}
 
 .h-roof-center .el-name{font-size:10px;color:#666;line-height:1.3;margin-bottom:4px}
 .roof-label{font-size:10px;color:#666;line-height:1.4}
@@ -105,9 +105,9 @@ footer a{color:#888}
 </head>
 <body>
 
-<h1>Das Fachwerkhaus</h1>
+<h1>Die Fachwerkhaus-Diagnose</h1>
 <div class="draft-badge">ENTWURF</div>
-<div class="intro"><b>Die Fachwerkhaus-Diagnose</b><br><br>
+
 Jeden Tag von Informationen überschwemmt und doch nie die richtige zur Hand?
 Tage voller Meetings? Wissen geht verloren, wenn
 Kollegen das Team verlassen? Sie werden nicht nach Ihrem Wissen gefragt — jetzt soll die KI
@@ -129,7 +129,6 @@ Beantworten Sie Fragen zu Ihrer Arbeit und schalten dann die Schwerkraft
 — die Arbeitsflüsse — ein. Das Ergebnis ist der Startpunkt 
 für gemeinsames Gestalten funktionierender Koordinationsinfrastruktur. Haben Sie Gedanken/Feedback? Wir freuen uns über eine Nachricht.</div>
 <hr>
-
 <div class="main">
 <div class="questions" id="qPanel"></div>
 <div class="house-side">
