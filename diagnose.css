@@ -163,10 +163,10 @@ hr {
 }
 
 .h-roof-left .el img {
-  width: 75%;
+  width: 55%;
   height: auto;
-  transform: rotate(38deg);
-  transform-origin: bottom right;
+  transform: rotate(-38deg);
+  transform-origin: bottom ;
   display: block;
 }
 
