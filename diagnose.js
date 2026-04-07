@@ -127,25 +127,6 @@ const STRUCT = [
     ]}
   ]},
 
-  { id: 'roof', name: 'Dach — Führung und strategische Absicht', qs: [
-    { t: 'Nutzt die Führungsebene dieselben Zusammenarbeitstools, die sie den Teams bereitstellt?', o: [
-      ['Konsequent — sie leben vor, was sie erwarten', 2],
-      ['Uneinheitlich — es hängt von der Führungskraft ab', 1],
-      ['Nein — Führung arbeitet über E-Mail und Assistenz', 0]
-    ]},
-    { t: 'Wird Zusammenarbeit gemessen oder nur erwähnt?', o: [
-      ['Gemessen — es gibt Kennzahlen oder zumindest regelmäßige Reflexion', 2],
-      ['Erwähnt in Leitbildern und Town Halls, aber nicht nachverfolgt', 1],
-      ['Weder noch — „besser zusammenarbeiten" ist ein Appell, keine Strategie', 0]
-    ]},
-    { t: 'Gibt es eine Gestaltungsphase mit den Nutzenden, wenn ein neues Tool eingeführt wird?', o: [
-      ['Ja — Nutzende gestalten mit', 2],
-      ['Teilweise — es gibt Schulungen, aber kein Co-Design', 1],
-      ['Nein — Tools werden ausgerollt und man soll sich anpassen', 0]
-    ]}
-  ]}
-];
-
 const GRAV = { id: 'gravity', name: 'Schwerkraft — Was drückt auf diese Struktur?', qs: [
   { t: 'Wie häufig durchläuft Ihre Organisation grundlegende Veränderungen?', o: [
     ['Ständig — Veränderung ist Dauerzustand', 3],
