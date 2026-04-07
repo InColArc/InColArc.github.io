@@ -8,11 +8,11 @@
 // ---------------------------------------------------------------------------
 const IMG = {
   wall1:   { beam: 'img/beam.png',    twig: 'img/twig.png'   },
-  wall2:   { beam: 'img/beam.png',    twig: 'img/twig.png'   },
-  wall3:   { beam: 'img/floor.jpg',   twig: 'img/twig-h.png' },
-  wall4:   { beam: 'img/ceiling.jpg', twig: 'img/twig-h.png' },
-  culture: { beam: 'img/beam.png',    twig: 'img/twig2.jpg'  },
-  habits:  { beam: 'img/beam.png',    twig: 'img/twig2.jpg'  }
+  wall2:   { beam: 'img/beam.png',    twig: 'img/twig2.png'   },
+  wall3:   { beam: 'img/floor.png',   twig: 'img/twig2.png' },
+  wall4:   { beam: 'img/ceiling.png', twig: 'img/twig3.png' },
+  culture: { beam: 'img/beam.png',    twig: 'img/twig3.png'  },
+  habits:  { beam: 'img/beam.png',    twig: 'img/twig4.png'  }
 };
 
 // ---------------------------------------------------------------------------
