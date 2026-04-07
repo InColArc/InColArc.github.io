@@ -249,7 +249,7 @@ hr {
 }
 
 /* ── Element states ── */
-.el      { opacity: .1; transition: opacity .3s; }
+.el      { opacity: 0; transition: opacity .3s; }
 .el.show { opacity: 1; }
 .el img  { object-fit: contain; }
 
@@ -334,6 +334,19 @@ hr {
 
 /* Cross-brace images in their default (non-rotated) context */
 .h-center img { max-height: none; }
+
+.figure-center { 
+  display: none; 
+  position: absolute; 
+  top: 50%; left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 5; 
+}
+.figure-center.show { display: block; }
+.figure-center img {
+  height: 120px;
+  width: auto;
+}
 
 /* ── Labels ── */
 .el-name {
