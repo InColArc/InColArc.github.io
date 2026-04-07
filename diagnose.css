@@ -328,6 +328,21 @@ hr {
 /* Cross-brace images */
 .h-center img { max-height: none; }
 
+/* ── Center figure (appears on gravity) ── */
+.figure-center { 
+  display: none; 
+  position: absolute; 
+  bottom: 0; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  z-index: 5; 
+}
+.figure-center.show { display: block; }
+.figure-center img {
+  height: 180px;
+  width: auto;
+}
+
 /* ── Labels ── */
 .el-name {
   font-size: 8px;
