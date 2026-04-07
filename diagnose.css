@@ -221,7 +221,6 @@ hr {
   display: flex; 
   align-items: stretch; 
   justify-content: center; 
-   padding-left: 30px
 }
 
 .h-right { 
@@ -230,7 +229,6 @@ hr {
   display: flex; 
   align-items: stretch; 
   justify-content: center; 
-   padding-right: 30px
 }
 
 /* ── Cross-brace area (center, full height of row 3) ── */
@@ -251,7 +249,7 @@ hr {
 }
 
 /* ── Element states ── */
-.el      { opacity: 0; transition: opacity .3s; }
+.el      { opacity: .1; transition: opacity .3s; }
 .el.show { opacity: 1; }
 .el img  { object-fit: contain; }
 
@@ -280,76 +278,55 @@ hr {
 }
 
 /* ── Cross-braces ── 
-   Each brace spans the full diagonal of the center area.
-   They form an X shape.
-   Culture: top-left to bottom-right (\)
-   Habits:  top-right to bottom-left (/)
+   Both braces originate from the center of the ceiling beam.
+   Culture: from center-top down to left wall  (/)
+   Habits:  from center-top down to right wall (\)
+   Both at 45 degrees.
 */
 .brace-culture { 
   position: absolute;
-  left: 0; top: 0; 
-  width: 100%; height: 100%; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
+  left: 50%; 
+  top: 0; 
+  width: 0;
+  height: 0;
   pointer-events: none;
 }
 .brace-culture .el {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .brace-culture .el img {
-  /* Diagonal length of the rectangle ≈ longer than height */
   height: 260px;
   width: auto;
   max-width: none;
-  transform: rotate(42deg);
-  transform-origin: center center;
+  transform: rotate(-45deg);
+  transform-origin: top center;
 }
 
 .brace-habits { 
   position: absolute;
-  left: 0; top: 0; 
-  width: 100%; height: 100%; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
+  left: 50%; 
+  top: 0; 
+  width: 0;
+  height: 0;
   pointer-events: none;
 }
 .brace-habits .el {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .brace-habits .el img {
   height: 260px;
   width: auto;
   max-width: none;
-  transform: rotate(-42deg);
-  transform-origin: center center;
+  transform: rotate(45deg);
+  transform-origin: top center;
 }
 
-/* Cross-brace images in their default (non-rotated) context */
+/* Cross-brace images */
 .h-center img { max-height: none; }
-
-.figure-center { 
-  display: none; 
-  position: absolute; 
-  bottom: 0; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  z-index: 5; 
-}
-.figure-center.show { display: block; }
-.figure-center img {
-  height: 120px;
-  width: auto;
-}
 
 /* ── Labels ── */
 .el-name {
@@ -365,16 +342,16 @@ hr {
   white-space: nowrap;
 }
 
-/* Labels on cross-braces: positioned at bottom center */
+/* Labels on cross-braces: positioned at bottom of center area */
 .brace-habits .el-name,
 .brace-culture .el-name {
   position: absolute;
-  bottom: 4px;
+  bottom: -14px;
   font-size: 7px;
   white-space: nowrap;
 }
-.brace-culture .el-name { left: 10px; }
-.brace-habits .el-name { right: 10px; }
+.brace-culture .el-name { left: 0; }
+.brace-habits .el-name { right: 0; }
 
 /* ── Absent element placeholder ── */
 .figure      { display: none; font-size: 24px; text-align: center; }
