@@ -251,7 +251,7 @@ hr {
 }
 
 /* ── Element states ── */
-.el      { opacity: .1; transition: opacity .3s; }
+.el      { opacity: 0; transition: opacity .3s; }
 .el.show { opacity: 1; }
 .el img  { object-fit: contain; }
 
