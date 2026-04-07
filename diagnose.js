@@ -8,7 +8,7 @@
 // ---------------------------------------------------------------------------
 const IMG = {
   wall1:   { beam: 'img/beam.png',    twig: 'img/twig.png'   },
-  wall2:   { beam: 'img/beam.png',    twig: 'img/twig2.png'   },
+  wall2:   { beam: 'img/beam.png',    twig: 'img/twig2.png'  },
   wall3:   { beam: 'img/floor.png',   twig: 'img/floortwig.png' },
   wall4:   { beam: 'img/ceiling.png', twig: 'img/ceilingtwig.png' },
   culture: { beam: 'img/beam.png',    twig: 'img/twig3.png'  },
@@ -125,7 +125,8 @@ const STRUCT = [
       ['Durch persönliches Mentoring und mündliche Weitergabe', 1],
       ['Neue Mitarbeitende finden sich weitgehend allein zurecht', 0]
     ]}
-  ]},
+  ]}
+];
 
 const GRAV = { id: 'gravity', name: 'Schwerkraft — Was drückt auf diese Struktur?', qs: [
   { t: 'Wie häufig durchläuft Ihre Organisation grundlegende Veränderungen?', o: [
@@ -223,16 +224,12 @@ function getState(secId) {
 
 /** Swap the image for a structural element based on its state */
 function updateHouse(secId) {
-  if (secId === 'roof') return; // roof images are always visible
-
   const state = getState(secId);
   const vis = document.getElementById('v-' + secId);
   const img = document.getElementById('img-' + secId);
-  const fig = document.getElementById('fig-' + secId);
 
   if (state === null) {
     vis.classList.remove('show');
-    if (fig) fig.classList.remove('show');
     return;
   }
 
@@ -240,14 +237,11 @@ function updateHouse(secId) {
 
   if (state === 2) {
     if (img) img.src = IMG[secId].beam;
-    if (fig) fig.classList.remove('show');
   } else if (state === 1) {
     if (img) img.src = IMG[secId].twig;
-    if (fig) fig.classList.remove('show');
   } else {
     if (img) img.src = '';
     vis.classList.remove('show');
-    if (fig) fig.classList.add('show');
   }
 }
 
@@ -257,7 +251,9 @@ function updateHouse(secId) {
 function doGravity() {
   const st = {};
   STRUCT.forEach(s => { st[s.id] = getState(s.id); });
-   document.getElementById('fig-center').classList.add('show');
+
+  // Show figure in center of house
+  document.getElementById('fig-center').classList.add('show');
 
   // Gravity weight
   let gt = 0, gc = 0;
@@ -310,9 +306,9 @@ function doGravity() {
            '</b> — nicht vorhanden.</p>';
     }
 
-    // Roof pressure
-    if (st.roof !== 0 && (bracesAbsent > 0 || twigs.length >= 2)) {
-      h += '<p>Das Dach drückt die Wände nach außen</p>';
+    // Roof always presses down
+    if (bracesAbsent > 0 || twigs.length >= 2) {
+      h += '<p>Das Dach drückt die Wände nach außen.</p>';
     }
   }
 
