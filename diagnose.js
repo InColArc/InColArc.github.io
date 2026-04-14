@@ -55,7 +55,7 @@ const STRUCT = [
     ]}
   ]},
 
-  { id: 'wall3', name: 'Decke — Besprechungen', qs: [
+  { id: 'wall3', name: 'Boden — Besprechungen', qs: [
     { t: 'Bei wie vielen Ihrer Besprechungen entstehen dokumentierte, auffindbare Entscheidungen?', o: [
       ['Bei den meisten — Entscheidungen werden festgehalten und sind zugänglich', 2],
       ['Bei einigen — es hängt davon ab, wer Protokoll führt', 1],
@@ -73,7 +73,7 @@ const STRUCT = [
     ]}
   ]},
 
-  { id: 'wall4', name: 'Boden — Schnelle informelle Kommunikation', qs: [
+  { id: 'wall4', name: 'Decke — Schnelle informelle Kommunikation', qs: [
     { t: 'Gibt es einen Chat-Kanal, in dem Routinefragen schnell beantwortet werden?', o: [
       ['Ja, und er ist ein offizieller Teil unserer Arbeitsweise', 2],
       ['Ja, aber er ist informell entstanden und nicht alle nutzen ihn', 1],
