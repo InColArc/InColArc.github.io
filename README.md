@@ -1,93 +1,77 @@
-Fachwerkhaus Diagnose
+# Fachwerkhaus-Diagnose
 
-"A lack of infrastructure is not a personal problem that we can solve with coaching or better communication"
+**"Fehlende Infrastruktur ist kein persönliches Problem."**
 
-An interactive web tool The user answers questions about how their organisation actually works, and watches a timber-framed house build — or fail to build — in response to their answers.
+Two interactive diagnostic tools that make coordination infrastructure visible. Built by the [Institute for Collaboration Architecture](https://incolarc.com).
 
-The concept
+## The tools
 
-A Fachwerkhaus is a half-timbered house. The structural principle is simple: vertical posts form walls, diagonal braces transfer load between them, and the whole thing only stands when every element does its job. Remove a wall and the house still stands — lopsided. Remove the cross-braces and the walls collapse outward under load. Add a roof to a structure with no braces and the weight brings everything down.
-This is a precise metaphor for coordination infrastructure in organisations. Not a vague analogy — the structure is only sound when the walls and cross braces exist and fultill their function, which means being connected. Organisations have tools (walls), culture and habits (cross-braces), and strategic intent (roof). Most organisations have some walls but no braces. They add roofs (strategy, leadership mandates) to structures that cannot bear the weight. The house diagram makes this visible in a way that no scorecard or traffic-light grid can.
-The tool asks questions. As the user answers, the house renders in real time. 
+### Fachwerkhaus-Diagnose (`diagnose.html`)
 
-Who this is for
+For people who work in organisations. Answer questions about how your organisation actually works and watch a timber-framed house build — or fail to build — in response.
 
-People responsible for making coordination work, people who work in dysfunctional organisations. Anyone who doesn't yet know that a discipline exists for designing the infrastructure they need.
-This tool aims to produce recognition in individuals which, we hope, will result in collective action. 
+The tool assesses six structural elements across three states: **Oak Beam** (designed infrastructure), **Twig** (fragile, depends on individuals), or **Gap** (absent). When all questions are answered, gravity activates — the operational pressure your organisation actually faces — and the structure either holds or doesn't.
 
-The metaphor is load-bearing, not decorative
+A figure stands inside the house. They carry what infrastructure should carry.
 
-This is not an illustration of a house used as a cute framing device for a survey. The structural logic of the Fachwerkhaus maps precisely onto the structural logic of coordination infrastructure. Every element of the house has an organisational equivalent, and the relationships between elements (what bears load, what transfers force, what collapses without support) are real.
-A designer working on this needs to understand — or be willing to learn — that:
-- Walls without cross-braces collapse outward under load. This is physically true of timber frames and organisationally true of tools without habits.
-- Cross-braces only work when they connect to walls. Culture that isn't connected to actual tool usage is decoration.
-- A roof on a structure without braces accelerates collapse. Strategic mandates on organisations without coordination infrastructure make things worse, not better.
-- The foundation (values) is invisible when the house is working. You only notice it when it cracks.
-The visual design must respect this structural logic. The house should feel like architecture, not like an infographic.
+**22 questions. Everything stays in the browser. No data is sent anywhere.**
 
-The structural elements
+### Fundament-Diagnose (`fundament.html`)
 
-Seven assessable elements, each with three possible states.
+For leaders. Answer questions about the governance structures underneath your organisation and see whether your leadership methods provide a foundation — or whether your teams are standing on sand.
 
-Four walls
+Five foundation segments, each in one of three states: **Stein** (solid, maintained), **Sand** (exists but depends on individuals), or **Luft** (nothing there — the value is in the Leitbild but there's no structure for it).
 
-Each wall represents a category of collaboration tool — not a specific product, but a function.
+The five segments:
 
-Left wall — Structured distribution of tasks
-Examples: Jira, ServiceNow, Planner, any system where work gets assigned and tracked.
+- **Entscheidungstransparenz** — Do affected people learn about decisions before they feel the consequences?
+- **Koordinationsanreize** — Is coordination measured and rewarded, or do only individual results count?
+- **Feedbackinfrastruktur** — Can people report structural problems without personal risk? Does anything happen?
+- **Verantwortung für Koordinationskosten** — When coordination fails, who bears the cost, and is that visible?
+- **Lernfähigkeit der Organisation** — Does the organisation learn from projects and failures, or does every initiative start from zero?
 
-What it does: Makes visible who is doing what. Prevents work falling through cracks. Creates accountability without requiring someone to hold it all in their head.
+**20 questions. Everything stays in the browser. No data is sent anywhere.**
 
-Right wall — Knowledge resources
-Examples: Confluence, SharePoint, Wiki, any persistent searchable store of documented knowledge.
+## How the two tools relate
 
-What it does: Makes knowledge findable without asking a person. Prevents knowledge from being trapped in heads. Creates organisational memory.
+The house diagnostic tests coordination infrastructure from below — the experience of the people doing the work.
 
-Floor — Complex questions and relationship care (live meetings)
-Examples: Scheduled meetings, offsites, workshops, one-to-ones.
+The foundation diagnostic tests governance infrastructure from above — whether leadership has built the structures to support coordination.
 
-What it does: Handles what async cannot — nuance, conflict, trust-building, complex problem-solving. The only collaboration function that existed before digital tools.
+The roof of the house is operational pressure (Arbeitspensum, betrieblicher Druck). The foundation is what leadership provides underneath. The house between them is where people work. If the roof is heavy and the foundation is sand, the structure fails — no matter how solid the beams are.
 
-Ceiling — Quick informal group communication
-Examples: Teams Chat, Slack, WhatsApp groups (when official tools fail).
+Each tool stands alone. Each links to the other.
 
-What it does: Handles rapid tactical coordination. The organisational nervous system. Creates searchable records of decisions and context that would otherwise live only in oral memory.
+## The metaphor is structural, not decorative
 
-Two cross-braces
+The Fachwerkhaus is not an illustration used as a framing device for a survey. The structural logic of timber-frame construction maps precisely onto the structural logic of coordination infrastructure:
 
-The cross-braces are what make the walls bear load. Without them, tools exist but don't function as infrastructure.
+- Walls without cross-braces collapse outward under load. Tools without habits do the same.
+- Cross-braces only work when connected to walls. Culture that isn't connected to actual tool usage is decoration.
+- A heavy roof on a structure without braces accelerates collapse. Strategic mandates on organisations without coordination infrastructure make things worse.
+- The foundation is invisible when the house is working. You only notice it when it cracks.
 
-Cross-brace 1 (diagonal, lower left to upper right) — Culture
-Trust, openness, shared responsibility. Is asking for help seen as competence or weakness? Do people share partial solutions or only finished work? Are mistakes discussed openly? Who gets credit for collaborative success?
+## Design principle
 
-Cross-brace 2 (diagonal, lower right to upper left) — Habits
-Read, respond, who does what when. Do people check shared channels before scheduling meetings? Is "I will document this" a common phrase? How do experienced people onboard newcomers? Where do people go first with problems — boss, colleague, documentation?
+The hand-drawn artwork is the product, not a placeholder. The drawings are by Anke Holst. Developer instruction: improve the code, the physics, the responsiveness.
 
-Roof
+## Technology
 
-Strategic intent and leadership
-Does leadership model collaborative behaviour? Is collaboration measured or just mentioned? Are collaboration tools resourced or just provided? Is fire prevention recognised, or only firefighting?
+- Pure HTML/CSS/JS. No frameworks, no dependencies.
+- Runs entirely client-side. No server, no data collection, no cookies.
+- Hosted on GitHub Pages.
 
-The position paper states: "The structure can exist and be stable without a roof — but it needs one sooner or later." In the tool, the roof is assessed last. If the structure below is absent, the roof question becomes: your leadership is putting weight on a structure that isn't there.
+## Methodology
 
-The three states
+The Fachwerkhaus-Diagnose is based on the Collaboration Architecture methodology, developed through three years of embedded practice in an 11,000-person industrial organisation. Published in Touchpoint (2026), presented at EA DACH (2026).
 
-Every element can be in one of three states. 
-Designed — The element exists, is maintained, and works regardless of who is present. Solid rendering. The beam is there.
-Fragile — The element functions but depends on specific people or informal arrangements. It works until someone leaves or a crisis hits. Dashed or semi-transparent rendering. The beam is there but you can see through it.
-Absent — The element does not exist in any functional form. Empty space. The beam is not there. If other elements depend on it, they should visually show the strain.
+Position paper: [Collaboration Architecture ins Business Capabilities Model](https://www.researchgate.net/) (ResearchGate)
 
-The questions
+## Licence
 
-The user answers a number of questions in the different categories. Radio buttons result in a value which results in a structural attribute, either oak beam, twig or nothing. 
+The code is open source. The hand-drawn artwork is proprietary — it may not be replaced, modified, or used outside the Institute's tools without permission. The methodology (Collaboration Architecture, Fachwerkhaus metaphor, Trampelpfade des Wissens, Archaeological Document Analysis) is Institute IP.
 
-The result
+## Contact
 
-While answering the questions, the resulting structure becomes visible in the browser window. After answering all questions, a "Gravity" button becomes visible. 
-
-The Physics Engine 
-
-Clicking the "Gravity" botton activates a physics engine. The structure either stands or falls down. It could be made more of a direct experience by putting a person into the structure who possibly holds up walls that do not have structural support. 
-
-
-
+Anke Holst — [hallo@ankeholst.de](mailto:hallo@ankeholst.de)
+Institute for Collaboration Architecture — [incolarc.com](https://incolarc.com)
