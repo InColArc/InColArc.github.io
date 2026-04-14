@@ -1,337 +1,394 @@
-/* foundation.js — Foundation Diagnostic Tool
-   Institute for Collaboration Architecture, 2026
-   No data is sent. Everything stays in the browser.
-*/
+// FUNDAMENT-DIAGNOSE
+// Foundation/Governance layer for the Fachwerkhaus diagnostic
+// Institute for Collaboration Architecture · incolarc.com · 2026
 
-// ---------------------------------------------------------------------------
-// Image paths — beam (strong) and twig (fragile) variants per element
-// ---------------------------------------------------------------------------
-const IMG = {
-  wall1:   { beam: 'img/beam.png',    twig: 'img/twig.png'   },
-  wall2:   { beam: 'img/beam.png',    twig: 'img/twig2.png'  },
-  wall3:   { beam: 'img/floor.png',   twig: 'img/floortwig.png' },
-  wall4:   { beam: 'img/ceiling.png', twig: 'img/ceilingtwig.png' },
-  culture: { beam: 'img/beam.png',    twig: 'img/twig3.png'  },
-  habits:  { beam: 'img/beam.png',    twig: 'img/twig4.png'  }
-};
+// ============================================================
+// QUESTION DATA — 20 questions, 4 per foundation segment
+// ============================================================
 
-// ---------------------------------------------------------------------------
-// Question data — each section maps to a structural element
-// ---------------------------------------------------------------------------
-const STRUCT = [
-  { id: 'wall1', name: 'Wand 1 — Aufgabenverteilung', qs: [
-    { t: 'Wenn Arbeit anfällt und niemand offiziell zuständig ist — wie wird sie verteilt?', o: [
-      ['Über ein System, das Auslastung und Kapazitäten sichtbar macht', 2],
-      ['Wer zuerst gefragt wird oder sich meldet', 1],
-      ['Sie wird nicht verteilt — sie bleibt bei dem, der es bemerkt', 0]
-    ]},
-    { t: 'Können Menschen in Ihrer Organisation die Arbeitsbelastung im Team überblicken?', o: [
-      ['Ja, über ein gemeinsames System', 2],
-      ['Informell — die Teamleitung hat ein Gefühl dafür', 1],
-      ['Nein — jeder verwaltet seine Arbeit allein', 0]
-    ]},
-    { t: 'Was passiert, wenn jemand zwei Wochen ausfällt?', o: [
-      ['Aufgaben sind sichtbar und können umverteilt werden', 2],
-      ['Ein Kollege springt ein, aber nur weil er die Person kennt', 1],
-      ['Dinge bleiben liegen oder fallen durch, bis die Person zurück ist', 0]
-    ]}
-  ]},
-
-  { id: 'wall2', name: 'Wand 2 — Wissensressourcen', qs: [
-    { t: 'Wo schauen Menschen zuerst, wenn sie wissen müssen, wie etwas funktioniert?', o: [
-      ['In einer gepflegten Wissensdatenbank oder Dokumentation', 2],
-      ['Sie fragen eine bestimmte Person, die die Antwort kennt', 1],
-      ['Es gibt keinen verlässlichen ersten Anlaufpunkt', 0]
-    ]},
-    { t: 'Können Sie Dokumentation von vor sechs Monaten finden?', o: [
-      ['Ja, zuverlässig und schnell', 2],
-      ['Wahrscheinlich, aber es würde Suchen und Nachfragen kosten', 1],
-      ['Sie existiert wahrscheinlich nicht mehr, oder ich wüsste nicht wo', 0]
-    ]},
-    { t: 'Wer pflegt gemeinsame Wissensressourcen?', o: [
-      ['Eine definierte Rolle oder verteilte Verantwortung mit Standards', 2],
-      ['Ein oder zwei engagierte Personen, die es freiwillig tun', 1],
-      ['Niemand — Ressourcen werden erstellt und dann sich selbst überlassen', 0]
-    ]}
-  ]},
-
-  { id: 'wall3', name: 'Decke — Besprechungen', qs: [
-    { t: 'Bei wie vielen Ihrer Besprechungen entstehen dokumentierte, auffindbare Entscheidungen?', o: [
-      ['Bei den meisten — Entscheidungen werden festgehalten und sind zugänglich', 2],
-      ['Bei einigen — es hängt davon ab, wer Protokoll führt', 1],
-      ['Bei wenigen oder keinen — Entscheidungen bleiben in den Köpfen', 0]
-    ]},
-    { t: 'Wie viele Meetings dienen hauptsächlich der Informationsweitergabe?', o: [
-      ['Sehr wenige — Meetings sind für Entscheidungen und komplexe Diskussionen', 2],
-      ['Einige — wir könnten ein paar durch bessere asynchrone Wege ersetzen', 1],
-      ['Die meisten — Meetings sind unser Hauptkanal für Informationen', 0]
-    ]},
-    { t: 'Kann jemand, der nicht dabei war, eine Meeting-Entscheidung eine Woche später finden?', o: [
-      ['Ja — Entscheidungen werden an einem bekannten Ort dokumentiert', 2],
-      ['Vielleicht — wenn man weiß, wen man fragen muss', 1],
-      ['Nein — man musste dabei gewesen sein', 0]
-    ]}
-  ]},
-
-  { id: 'wall4', name: 'Boden — Schnelle informelle Kommunikation', qs: [
-    { t: 'Gibt es einen Chat-Kanal, in dem Routinefragen schnell beantwortet werden?', o: [
-      ['Ja, und er ist ein offizieller Teil unserer Arbeitsweise', 2],
-      ['Ja, aber er ist informell entstanden und nicht alle nutzen ihn', 1],
-      ['Nein — Fragen gehen per E-Mail oder Anruf an Einzelpersonen', 0]
-    ]},
-    { t: 'Können neue Mitarbeitende diese Kanäle leicht finden und beitreten?', o: [
-      ['Ja — sie sind auffindbar und Teil des Onboardings', 2],
-      ['Wenn jemand sie zeigt — es läuft über Mundpropaganda', 1],
-      ['Es gibt keine gemeinsamen Kanäle, oder sie sind für Neue unsichtbar', 0]
-    ]},
-    { t: 'Wenn etwas Wichtiges im Chat entschieden wird — wird es dauerhaft festgehalten?', o: [
-      ['Ja — Entscheidungen wandern vom Chat in die Dokumentation', 2],
-      ['Manchmal, wenn jemand daran denkt', 1],
-      ['Nein — es scrollt weg und ist praktisch verloren', 0]
-    ]}
-  ]},
-
-  { id: 'culture', name: 'Querstrebe — Kultur', qs: [
-    { t: 'Wird um Hilfe zu bitten als Kompetenz oder als Schwäche gesehen?', o: [
-      ['Als Kompetenz — es wird erwartet und von Führungskräften vorgelebt', 2],
-      ['Kommt auf das Team oder die Führungskraft an', 1],
-      ['Als Schwäche — man soll seine Probleme allein lösen', 0]
-    ]},
-    { t: 'Teilen Menschen Zwischenergebnisse oder nur fertige Arbeit?', o: [
-      ['Zwischenergebnisse werden geteilt, Feedback ist normal', 2],
-      ['Informell, innerhalb vertrauensvoller Beziehungen', 1],
-      ['Nur fertige Ergebnisse — Entwürfe zu zeigen fühlt sich riskant an', 0]
-    ]},
-    { t: 'Werden Fehler offen besprochen oder versteckt?', o: [
-      ['Offen besprochen als Lernmöglichkeit', 2],
-      ['Privat besprochen, aber nicht organisationsweit', 1],
-      ['Versteckt — Fehler sichtbar zu machen ist ein Karriererisiko', 0]
-    ]}
-  ]},
-
-  { id: 'habits', name: 'Querstrebe — Gewohnheiten', qs: [
-    { t: 'Schauen Menschen in gemeinsame Kanäle, bevor sie ein Meeting einberufen?', o: [
-      ['Ja — asynchron zuerst ist die Norm', 2],
-      ['Manchmal, aber Meetings sind immer noch der Standard', 1],
-      ['Nein — ein Meeting ist immer die erste Reaktion', 0]
-    ]},
-    { t: 'Ist „Ich dokumentiere das" ein Satz, den Sie regelmäßig hören?', o: [
-      ['Ja — Dokumentieren ist ein normaler Teil der Arbeit', 2],
-      ['Von bestimmten Personen, nicht von allen', 1],
-      ['Selten oder nie — Dokumentation gilt als Extraarbeit', 0]
-    ]},
-    { t: 'Wie geben erfahrene Kolleg:innen Wissen an neue weiter?', o: [
-      ['Durch strukturierte Übergabe mit dokumentierten Ressourcen', 2],
-      ['Durch persönliches Mentoring und mündliche Weitergabe', 1],
-      ['Neue Mitarbeitende finden sich weitgehend allein zurecht', 0]
-    ]}
-  ]}
+const SECTIONS = [
+  {
+    id: 'found1',
+    title: 'Fundament 1 — Entscheidungstransparenz',
+    questions: [
+      {
+        text: 'Wenn eine Entscheidung getroffen wird, die andere Teams betrifft — erfahren diese Teams es vorher?',
+        options: [
+          ['Ja, es gibt einen verbindlichen Prozess dafür', 2],
+          ['Manchmal, wenn jemand daran denkt', 1],
+          ['Nein — betroffene Teams erfahren es durch die Auswirkungen', 0]
+        ]
+      },
+      {
+        text: 'Können Sie nachvollziehen, warum eine Entscheidung getroffen wurde, die Ihre Arbeit verändert hat?',
+        options: [
+          ['Ja — Entscheidungen werden mit Begründung dokumentiert', 2],
+          ['Wenn Sie die richtige Person kennen und fragen', 1],
+          ['Nein — Entscheidungen kommen von oben ohne Erklärung', 0]
+        ]
+      },
+      {
+        text: 'Werden Entscheidungen rückgängig gemacht oder verändert, ohne dass die Betroffenen informiert werden?',
+        options: [
+          ['Selten — Änderungen werden kommuniziert', 2],
+          ['Gelegentlich — man merkt es an den Widersprüchen', 1],
+          ['Regelmäßig — was gestern galt, gilt heute nicht mehr', 0]
+        ]
+      },
+      {
+        text: 'Wissen die Menschen, die eine Entscheidung umsetzen müssen, dass sie an der Entscheidung hätten mitwirken können?',
+        options: [
+          ['Ja — Beteiligung ist Standard', 2],
+          ['In manchen Teams, abhängig von der Führungskraft', 1],
+          ['Nein — Umsetzung wird erwartet, nicht Mitgestaltung', 0]
+        ]
+      }
+    ]
+  },
+  {
+    id: 'found2',
+    title: 'Fundament 2 — Koordinationsanreize',
+    questions: [
+      {
+        text: 'Wird in Ihrer Organisation gemessen, wie gut Teams miteinander koordinieren?',
+        options: [
+          ['Ja — Koordinationsqualität ist Teil der Bewertung', 2],
+          ['Informell — gute Zusammenarbeit wird anerkannt, aber nicht gemessen', 1],
+          ['Nein — nur individuelle oder Team-Ergebnisse zählen', 0]
+        ]
+      },
+      {
+        text: 'Was passiert, wenn jemand eine Entscheidung trifft, ohne betroffene Teams einzubeziehen?',
+        options: [
+          ['Es gibt Konsequenzen oder zumindest eine verbindliche Nachbesprechung', 2],
+          ['Es wird vielleicht angesprochen, aber ohne Folgen', 1],
+          ['Nichts — wer schnell entscheidet, wird belohnt', 0]
+        ]
+      },
+      {
+        text: 'Wird Wissen teilen als Teil der Arbeit anerkannt, oder gilt es als Extraaufwand?',
+        options: [
+          ['Als Teil der Arbeit — es ist in Zielen und Bewertung enthalten', 2],
+          ['Wird geschätzt, aber nicht formell anerkannt', 1],
+          ['Gilt als Zeitverschwendung — Ergebnisse zählen, nicht Wissenstransfer', 0]
+        ]
+      },
+      {
+        text: 'Werden Führungskräfte danach bewertet, ob ihre Entscheidungen für andere Teams Mehrarbeit erzeugen?',
+        options: [
+          ['Ja — Auswirkungen auf andere werden mitbewertet', 2],
+          ['Theoretisch, aber in der Praxis zählt nur das eigene Ergebnis', 1],
+          ['Nein — jede Führungskraft optimiert für den eigenen Bereich', 0]
+        ]
+      }
+    ]
+  },
+  {
+    id: 'found3',
+    title: 'Fundament 3 — Feedbackinfrastruktur',
+    questions: [
+      {
+        text: 'Gibt es einen Weg, wie Mitarbeitende strukturelle Probleme melden können, ohne persönliches Risiko?',
+        options: [
+          ['Ja — es gibt sichere, etablierte Kanäle', 2],
+          ['Es gibt Kanäle, aber man weiß nie, was damit passiert', 1],
+          ['Nein — Probleme melden gilt als Beschwerde', 0]
+        ]
+      },
+      {
+        text: 'Wenn Sie sagen "das funktioniert nicht" — passiert etwas?',
+        options: [
+          ['Ja — Feedback wird systematisch aufgenommen und bearbeitet', 2],
+          ['Manchmal, wenn die richtige Person zuhört', 1],
+          ['Nein — Sie gelten als schwierig', 0]
+        ]
+      },
+      {
+        text: 'Erhalten Sie jemals Rückmeldung darüber, was mit Ihrem Feedback passiert ist?',
+        options: [
+          ['Ja — der Kreislauf wird geschlossen', 2],
+          ['Selten — man erfährt es zufällig', 1],
+          ['Nie — Feedback verschwindet', 0]
+        ]
+      },
+      {
+        text: 'Wird zwischen Feedback zu Personen und Feedback zu Strukturen unterschieden?',
+        options: [
+          ['Ja — es gibt unterschiedliche Kanäle und Prozesse', 2],
+          ['Nicht formell, aber manche Führungskräfte verstehen den Unterschied', 1],
+          ['Nein — jede Kritik wird als persönlicher Angriff verstanden', 0]
+        ]
+      }
+    ]
+  },
+  {
+    id: 'found4',
+    title: 'Fundament 4 — Verantwortung für Koordinationskosten',
+    questions: [
+      {
+        text: 'Wenn ein Projekt Mehrarbeit in anderen Teams verursacht — wird das sichtbar gemacht?',
+        options: [
+          ['Ja — Auswirkungen auf andere Teams werden dokumentiert und berichtet', 2],
+          ['Informell bekannt, aber nicht offiziell erfasst', 1],
+          ['Nein — jedes Team trägt seine Last allein', 0]
+        ]
+      },
+      {
+        text: 'Gibt es jemanden, der für die Koordination zwischen Teams verantwortlich ist?',
+        options: [
+          ['Ja — eine definierte Rolle mit Mandat und Ressourcen', 2],
+          ['Jemand tut es freiwillig, ohne offiziellen Auftrag', 1],
+          ['Nein — Koordination passiert zufällig oder gar nicht', 0]
+        ]
+      },
+      {
+        text: 'Werden Tools und Prozesse mit den Menschen eingeführt, die sie nutzen sollen?',
+        options: [
+          ['Ja — Einführung geschieht gemeinsam mit den Nutzenden', 2],
+          ['Teilweise — es gibt Schulungen, aber keine Mitgestaltung', 1],
+          ['Nein — Tools werden beschafft und ausgerollt', 0]
+        ]
+      },
+      {
+        text: 'Wenn Koordination scheitert — wer trägt die Kosten?',
+        options: [
+          ['Die Organisation erkennt es als strukturelles Problem an', 2],
+          ['Die beteiligten Teams versuchen, es untereinander zu lösen', 1],
+          ['Die Menschen ganz unten — durch Mehrarbeit, Überstunden, Frustration', 0]
+        ]
+      }
+    ]
+  },
+  {
+    id: 'found5',
+    title: 'Fundament 5 — Lernfähigkeit der Organisation',
+    questions: [
+      {
+        text: 'Werden nach Projekten oder Veränderungen systematisch Erkenntnisse gesammelt?',
+        options: [
+          ['Ja — Retrospektiven oder Reviews sind Standard', 2],
+          ['Manchmal, wenn jemand es einfordert', 1],
+          ['Nein — es geht direkt weiter zum Nächsten', 0]
+        ]
+      },
+      {
+        text: 'Sind die Erkenntnisse aus vergangenen Projekten auffindbar?',
+        options: [
+          ['Ja — dokumentiert und zugänglich', 2],
+          ['Irgendwo, wenn man weiß, wo man suchen muss', 1],
+          ['Nein — jedes Projekt startet bei null', 0]
+        ]
+      },
+      {
+        text: 'Lernt Ihre Organisation aus Fehlern oder wiederholt sie sie?',
+        options: [
+          ['Lernt — es gibt sichtbare Veränderungen nach Problemen', 2],
+          ['Diskutiert sie, ändert aber selten etwas', 1],
+          ['Wiederholt sie — dieselben Fehler, andere Menschen', 0]
+        ]
+      },
+      {
+        text: 'Wird "wir haben das schon mal versucht" als Argument gegen Veränderung benutzt?',
+        options: [
+          ['Selten — vergangene Versuche werden analysiert, nicht als Blockade benutzt', 2],
+          ['Gelegentlich — kommt auf die Führungskraft an', 1],
+          ['Ständig — Scheitern in der Vergangenheit tötet jede Initiative', 0]
+        ]
+      }
+    ]
+  }
 ];
 
-const GRAV = { id: 'gravity', name: 'Schwerkraft — Was drückt auf diese Struktur?', qs: [
-  { t: 'Wie häufig durchläuft Ihre Organisation grundlegende Veränderungen?', o: [
-    ['Ständig — Veränderung ist Dauerzustand', 3],
-    ['Alle ein bis zwei Jahre', 2],
-    ['Selten — es ist relativ stabil', 1]
-  ]},
-  { t: 'Wie viel Ihrer Arbeit hängt von Abstimmung über Teamgrenzen hinweg ab?', o: [
-    ['Fast alles — nichts geht allein', 3],
-    ['Ein erheblicher Teil', 2],
-    ['Überwiegend eigenständige Arbeit', 1]
-  ]},
-  { t: 'Wenn wichtige Personen gehen — wie viel Wissen geht mit ihnen?', o: [
-    ['Kritisches Wissen verschwindet', 3],
-    ['Es gibt Störungen, aber das Team erholt sich', 2],
-    ['Minimale Auswirkung', 1]
-  ]},
-  { t: 'Wie viele Tools und Prozesse wurden ohne die Nutzenden eingeführt?', o: [
-    ['Die meisten', 3],
-    ['Einige', 2],
-    ['Sehr wenige', 1]
-  ]}
-]};
+// ============================================================
+// STATE
+// ============================================================
 
-// ---------------------------------------------------------------------------
-// State
-// ---------------------------------------------------------------------------
-const ans  = {};
-const gAns = {};
-const total = STRUCT.reduce((n, s) => n + s.qs.length, 0) + GRAV.qs.length;
-let count = 0;
+const answers = {};
+let totalAnswered = 0;
+const TOTAL_QUESTIONS = 20;
 
-// ---------------------------------------------------------------------------
-// Rendering
-// ---------------------------------------------------------------------------
-function renderSection(sec, isGrav) {
-  let h = '<div class="section-title">' + sec.name + '</div>';
-  sec.qs.forEach((q, qi) => {
-    const name = sec.id + '_' + qi;
-    h += '<div class="q"><p>' + q.t + '</p>';
-    q.o.forEach((opt) => {
-      h += '<label><input type="radio" name="' + name + '" value="' + opt[1] +
-           '" data-sec="' + sec.id + '" data-grav="' + (isGrav ? 1 : 0) +
-           '" onchange="pick(this)"> ' + opt[0] + '</label>';
+// ============================================================
+// RENDER QUESTIONS
+// ============================================================
+
+function renderAll() {
+  const panel = document.getElementById('qPanelf');
+  panel.innerHTML = '';
+
+  SECTIONS.forEach((section, sIdx) => {
+    const sDiv = document.createElement('div');
+    sDiv.className = 'section-block';
+
+    const heading = document.createElement('h3');
+    heading.className = 'section-title';
+    heading.textContent = section.title;
+    sDiv.appendChild(heading);
+
+    const hr = document.createElement('hr');
+    sDiv.appendChild(hr);
+
+    section.questions.forEach((q, qIdx) => {
+      const qKey = section.id + '_q' + qIdx;
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+
+      const qText = document.createElement('p');
+      qText.className = 'q-text';
+      qText.innerHTML = '<strong>' + q.text + '</strong>';
+      qDiv.appendChild(qText);
+
+      q.options.forEach((opt, oIdx) => {
+        const label = document.createElement('label');
+        label.className = 'radio-option';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = qKey;
+        radio.value = opt[1];
+        radio.addEventListener('change', function () {
+          onAnswer(section.id, qKey, parseInt(this.value));
+        });
+
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(' ' + opt[0]));
+        qDiv.appendChild(label);
+      });
+
+      sDiv.appendChild(qDiv);
     });
-    h += '</div>';
+
+    panel.appendChild(sDiv);
   });
-  return h;
 }
 
-function init() {
-  const panel = document.getElementById('qPanel');
-  let h = '';
-  STRUCT.forEach(s => { h += renderSection(s, false); });
-  h += renderSection(GRAV, true);
-  panel.innerHTML = h;
-}
+// ============================================================
+// SCORING
+// ============================================================
 
-// ---------------------------------------------------------------------------
-// Interaction
-// ---------------------------------------------------------------------------
-function pick(input) {
-  const name  = input.name;
-  const score = parseInt(input.value, 10);
-  const secId = input.dataset.sec;
-  const store = input.dataset.grav === '1' ? gAns : ans;
+function onAnswer(sectionId, qKey, score) {
+  const isNew = !(qKey in answers);
+  answers[qKey] = score;
 
-  if (store[name] === undefined) count++;
-  store[name] = score;
-
-  document.getElementById('prog').textContent = count + ' / ' + total;
-
-  if (input.dataset.grav !== '1') updateHouse(secId);
-  if (count >= total) document.getElementById('gravSec').classList.add('show');
-}
-
-// ---------------------------------------------------------------------------
-// House visualisation
-// ---------------------------------------------------------------------------
-
-/** Evaluate a section: 2 = beam, 1 = twig, 0 = absent, null = unanswered */
-function getState(secId) {
-  const sec = STRUCT.find(s => s.id === secId);
-  if (!sec) return null;
-  const scores = [];
-  sec.qs.forEach((q, qi) => {
-    const k = secId + '_' + qi;
-    if (ans[k] !== undefined) scores.push(ans[k]);
-  });
-  if (scores.length === 0) return null;
-  if (scores.includes(0)) return 0;
-  if (scores.includes(1)) return 1;
-  return 2;
-}
-
-/** Swap the image for a structural element based on its state */
-function updateHouse(secId) {
-  const state = getState(secId);
-  const vis = document.getElementById('v-' + secId);
-  const img = document.getElementById('img-' + secId);
-
-  if (state === null) {
-    vis.classList.remove('show');
-    return;
+  if (isNew) {
+    totalAnswered++;
+    document.getElementById('prog').textContent = totalAnswered + ' / ' + TOTAL_QUESTIONS;
   }
 
-  vis.classList.add('show');
+  updateFoundation(sectionId);
 
-  if (state === 2) {
-    if (img) img.src = IMG[secId].beam;
-  } else if (state === 1) {
-    if (img) img.src = IMG[secId].twig;
-  } else {
-    if (img) img.src = '';
-    vis.classList.remove('show');
+  if (totalAnswered === TOTAL_QUESTIONS) {
+    document.getElementById('gravSec').style.display = 'block';
   }
 }
 
-// ---------------------------------------------------------------------------
-// Results
-// ---------------------------------------------------------------------------
+function getSectionState(sectionId) {
+  const section = SECTIONS.find(s => s.id === sectionId);
+  const sectionAnswers = [];
+
+  section.questions.forEach((q, qIdx) => {
+    const qKey = sectionId + '_q' + qIdx;
+    if (qKey in answers) {
+      sectionAnswers.push(answers[qKey]);
+    }
+  });
+
+  if (sectionAnswers.length === 0) return null;
+
+  // Worst answer drags section down
+  const min = Math.min(...sectionAnswers);
+  if (min === 0) return 'air';
+  if (min === 1) return 'sand';
+  if (sectionAnswers.length === 4 && min === 2) return 'stone';
+  return 'sand'; // partial answers default to sand
+}
+
+// ============================================================
+// UPDATE FOUNDATION VISUALS
+// ============================================================
+
+function updateFoundation(sectionId) {
+  const state = getSectionState(sectionId);
+  const img = document.getElementById('img-' + sectionId);
+  if (!img) return;
+
+  if (state === 'stone') {
+    img.src = 'img/stone.png';
+    img.style.visibility = 'visible';
+  } else if (state === 'sand') {
+    img.src = 'img/sand1.png';
+    img.style.visibility = 'visible';
+  } else if (state === 'air') {
+    img.src = '';
+    img.style.visibility = 'hidden';
+  }
+}
+
+// ============================================================
+// RESULTS
+// ============================================================
+
 function doGravity() {
-  const st = {};
-  STRUCT.forEach(s => { st[s.id] = getState(s.id); });
+  const resultsDiv = document.getElementById('results');
+  let html = '<h2>Ergebnis: Ihr Fundament</h2>';
 
-  // Show figure in center of house
-  document.getElementById('fig-center').classList.add('show');
-
-  // Gravity weight
-  let gt = 0, gc = 0;
-  GRAV.qs.forEach((q, qi) => {
-    const k = 'gravity_' + qi;
-    if (gAns[k] !== undefined) { gt += gAns[k]; gc++; }
-  });
-  const avg = gc === 0 ? 0 : gt / gc;
-  const gw = avg >= 2.5 ? 'heavy' : (avg >= 1.8 ? 'moderate' : 'light');
-
-  // Structural analysis
-  const wallNames = {
-    wall1: 'Aufgabenverteilung',
-    wall2: 'Wissensressourcen',
-    wall3: 'Besprechungen',
-    wall4: 'Kommunikation'
+  const stateLabels = {
+    stone: '■ Stein — Infrastruktur existiert und wird gepflegt.',
+    sand: '◧ Sand — Etwas existiert, aber es hängt an einzelnen Personen.',
+    air: '□ Luft — Nichts da. Der Wert steht im Leitbild, aber es gibt keine Struktur dafür.'
   };
-  const bracesAbsent = (st.culture === 0 ? 1 : 0) + (st.habits === 0 ? 1 : 0);
-  const bracesFragile = (st.culture === 1 ? 1 : 0) + (st.habits === 1 ? 1 : 0);
-  const allOk = Object.values(st).every(v => v === 2);
 
-  let h = '<h2>Ihre Architektur</h2>';
+  const stateNames = {
+    stone: 'Stein',
+    sand: 'Sand',
+    air: 'Luft'
+  };
 
-  if (allOk) {
-    h += '<p>Ihre Koordinationsinfrastruktur ist tragfähig. Das Haus steht. Das ist selten.</p>';
+  let stoneCount = 0;
+  let sandCount = 0;
+  let airCount = 0;
+
+  SECTIONS.forEach(section => {
+    const state = getSectionState(section.id) || 'air';
+    if (state === 'stone') stoneCount++;
+    if (state === 'sand') sandCount++;
+    if (state === 'air') airCount++;
+
+    html += '<div class="result-section">';
+    html += '<h3>' + section.title.replace('Fundament ' + (SECTIONS.indexOf(section) + 1) + ' — ', '') + '</h3>';
+    html += '<p>' + stateLabels[state] + '</p>';
+    html += '</div>';
+  });
+
+  html += '<hr>';
+
+  // Overall assessment
+  if (airCount >= 3) {
+    html += '<p><strong>Ihr Fundament trägt nicht.</strong> In ' + airCount + ' von 5 Bereichen gibt es keine Governance-Infrastruktur. Die Koordinationskosten landen bei denen, die sich nicht wehren können. Das ist kein individuelles Versagen — das ist ein strukturelles Problem, das Führung lösen muss.</p>';
+  } else if (airCount >= 1 || sandCount >= 3) {
+    html += '<p><strong>Ihr Fundament ist lückenhaft.</strong> Einiges existiert, aber vieles hängt an einzelnen Personen oder fehlt ganz. Die Struktur darüber — egal wie gut sie gebaut ist — steht auf unsicherem Grund.</p>';
+  } else if (sandCount >= 1) {
+    html += '<p><strong>Ihr Fundament ist fragil.</strong> Governance-Strukturen existieren, aber sie hängen an Personen, nicht an Design. Wenn diese Menschen gehen, geht das Fundament mit.</p>';
   } else {
-    // Cross-braces
-    if (bracesAbsent === 2) {
-      h += '<p>Sie haben Wände, aber nichts verbindet sie. Ohne Kultur und Gewohnheiten ' +
-           'wird die erste ernsthafte Belastung die Wände nach außen drücken.</p>';
-    } else if (bracesAbsent === 1) {
-      const miss = st.culture === 0 ? 'Kultur' : 'Gewohnheiten';
-      const have = st.culture === 0 ? 'Gewohnheiten' : 'Kultur';
-      const note = miss === 'Kultur' ? 'Compliance ohne Commitment.' : 'Wohlwollen ohne Zuverlässigkeit.';
-      h += '<p>' + have + ' hält, aber ' + miss + ' fehlt. ' + note + '</p>';
-    } else if (bracesFragile > 0) {
-      h += '<p>Ihre Querstreben halten keine Belastung aus.</p>';
-    }
-
-    // Walls
-    const absent = Object.entries(wallNames).filter(([k]) => st[k] === 0);
-    const twigs  = Object.entries(wallNames).filter(([k]) => st[k] === 1);
-
-    if (twigs.length > 0) {
-      h += '<p><b>' + twigs.map(([, n]) => n).join(', ') +
-           '</b> — hält, weil bestimmte Menschen es am Laufen halten.</p>';
-    }
-    if (absent.length > 0) {
-      h += '<p><b>' + absent.map(([, n]) => n).join(', ') +
-           '</b> — nicht vorhanden.</p>';
-    }
-
-    // Roof always presses down
-    if (bracesAbsent > 0 || twigs.length >= 2) {
-      h += '<p>Das Dach drückt die Wände nach außen.</p>';
-    }
+    html += '<p><strong>Ihr Fundament ist tragfähig.</strong> Governance-Strukturen sind gestaltet und werden gepflegt. Das ist selten.</p>';
   }
 
-  // Gravity
-  h += '<div class="grav-box"><b>Schwerkraft:</b> ';
-  if (gw === 'heavy')         h += 'Hoher Druck. Wo Strukturen nicht halten, landet die Last auf Menschen.';
-  else if (gw === 'moderate') h += 'Mittlere Last. Zweige brechen bei Belastung.';
-  else                        h += 'Stabil! Herzlichen Glückwunsch.';
-  h += '</div>';
+  // Cost externalisation statement — always shown
+  html += '<p class="cost-statement">Jedes fehlende Fundament-Element bedeutet: die Kosten der fehlenden Governance landen bei den Menschen, die die Arbeit tun. Fehlende Infrastruktur ist kein persönliches Problem.</p>';
 
-  // Cost externalisation
-  h += '<div class="cost-box"><b>Wo landen die Kosten?</b> Jedes fehlende Element bedeutet: ' +
-       'jemand trägt die Last informell. Die Mehrarbeit landet bei denen, die sich nicht wehren können.</div>';
+  // Links
+  html += '<hr>';
+  html += '<p><a href="diagnose.html">→ Zur Fachwerkhaus-Diagnose</a> — Sehen Sie, wie die Koordinationsinfrastruktur Ihrer Organisation aussieht, die auf diesem Fundament steht.</p>';
+  html += '<p>Gedanken/Feedback? <a href="mailto:hallo@ankeholst.de">hallo@ankeholst.de</a></p>';
 
-  h += '<p class="results-cta"><b>Fragen? Anregungen? hallo@ankeholst.de</b></p>';
-
-  const r = document.getElementById('results');
-  r.innerHTML = h;
-  r.classList.add('show');
-  r.scrollIntoView({ behavior: 'smooth' });
+  resultsDiv.innerHTML = html;
+  resultsDiv.style.display = 'block';
 }
 
-// ---------------------------------------------------------------------------
-// Boot
-// ---------------------------------------------------------------------------
-init();
+// ============================================================
+// INIT
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', function () {
+  renderAll();
+  document.getElementById('gravSec').style.display = 'none';
+});
