@@ -230,7 +230,7 @@ function renderAll() {
     section.questions.forEach((q, qIdx) => {
       const qKey = section.id + '_q' + qIdx;
       const qDiv = document.createElement('div');
-      qDiv.className = 'question';
+      qDiv.className = 'q';
 
       const qText = document.createElement('p');
       qText.className = 'q-text';
@@ -239,7 +239,6 @@ function renderAll() {
 
       q.options.forEach((opt, oIdx) => {
         const label = document.createElement('label');
-        label.className = 'radio-option';
 
         const radio = document.createElement('input');
         radio.type = 'radio';
